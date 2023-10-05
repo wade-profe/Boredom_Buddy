@@ -21,7 +21,7 @@ class SuggestionRepository(val database: SuggestionDatabase, val dispatcher: Cor
 
     val latestSuggestion: LiveData<Suggestion?> =
         database.suggestionDao.getLatestSuggestion().map {
-            it.toDomainModel()
+            it?.toDomainModel()
         }
 
     suspend fun getNewSuggestion(){

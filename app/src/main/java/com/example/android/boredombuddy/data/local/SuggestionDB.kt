@@ -65,7 +65,7 @@ interface SuggestionDao{
     suspend fun setSugestionImageUrl(id: Long, url: String)
 
     @Query("SELECT * FROM DatabaseSuggestion WHERE mostRecent = 1")
-    fun getLatestSuggestion(): LiveData<DatabaseSuggestion>
+    fun getLatestSuggestion(): LiveData<DatabaseSuggestion?>
 
 }
 
