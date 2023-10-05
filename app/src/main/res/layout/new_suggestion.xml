@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
         <variable
@@ -8,65 +8,66 @@
             type="com.example.android.boredombuddy.newSuggestion.NewSuggestionViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:background="@drawable/background">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:background="@drawable/background">
 
-        <ImageView
-            android:id="@+id/suggestion_image"
-            android:layout_width="300dp"
-            android:layout_height="200dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:src="@drawable/placeholder_image"
-            app:setSrc="@{viewModel.latestSuggestion.imageUrl}"
-            android:layout_marginTop="50dp"
-            android:contentDescription="@string/activity_image" />
+            <ImageView
+                android:id="@+id/suggestion_image"
+                android:layout_width="300dp"
+                android:layout_height="200dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:src="@drawable/placeholder_image"
+                app:setSrc="@{viewModel.latestSuggestion.imageUrl}"
+                android:layout_marginTop="50dp"
+                android:contentDescription="@string/activity_image" />
 
-        <TextView
-            android:id="@+id/suggestion"
-            tools:text="Prepare a 72-hour kit"
-            android:layout_width="320dp"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/suggestion_image"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/favourite"
-            android:layout_marginTop="25dp"
-            android:textSize="32sp"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:text="@{viewModel.latestSuggestion.activity}" />
+            <TextView
+                android:id="@+id/suggestion"
+                tools:text="Prepare a 72-hour kit"
+                android:layout_width="320dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@id/suggestion_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/favourite"
+                android:layout_marginTop="25dp"
+                android:textSize="32sp"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:text="@{viewModel.latestSuggestion.activity}" />
 
-        <ImageView
-            android:id="@+id/favourite"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:background="@drawable/circle"
-            android:src="@drawable/thumbs_up_foreground"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="25dp"
-            android:contentDescription="@string/add_to_favourites"
-            android:onClick="@{() -> viewModel.getNewSuggestion()}"/>
+            <ImageView
+                android:id="@+id/favourite"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@drawable/circle"
+                android:src="@drawable/thumbs_up_foreground"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="25dp"
+                android:contentDescription="@string/add_to_favourites"
+                android:onClick="@{() -> viewModel.getNewSuggestion()}"/>
 
-        <ProgressBar
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:indeterminate="true"
-            android:indeterminateTintMode="src_atop"
-            android:indeterminateTint="@color/white"
-            showLoading="@{viewModel.isLoading()}"
-            />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <ProgressBar
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:indeterminate="true"
+                android:indeterminateTintMode="src_atop"
+                android:indeterminateTint="@color/white"
+                showLoading="@{viewModel.isLoading()}"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

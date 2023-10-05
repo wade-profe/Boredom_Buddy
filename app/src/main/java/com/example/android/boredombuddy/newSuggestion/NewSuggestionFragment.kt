@@ -33,7 +33,7 @@ class NewSuggestionFragment: Fragment() {
         .map { preferences ->
             val firstTime = preferences[PreferencesKeys.FIRST_TIME]?: true
             FirstTime(firstTime)
-        }
+        }   
 
     override fun onCreateView(
         inflater: LayoutInflater,

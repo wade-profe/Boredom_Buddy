@@ -1,5 +1,6 @@
 package com.example.android.boredombuddy.data
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
@@ -17,6 +18,10 @@ import kotlinx.coroutines.withContext
 
 class SuggestionRepository(private val suggestionDao: SuggestionDao, val dispatcher: CoroutineDispatcher = Dispatchers.IO) {
 
+    companion object {
+        val TAG = SuggestionRepository::class.simpleName
+    }
+
 //    val favouritesList: LiveData<List<Suggestion>?> =
 //        database.suggestionDao.getFavourites().map {
 //        it.toDomainModel()
@@ -32,16 +37,20 @@ class SuggestionRepository(private val suggestionDao: SuggestionDao, val dispatc
 
     suspend fun getNewSuggestion(){
         withContext(dispatcher){
-            val result = BoredAPI.callApi.getSuggestion()
-            if(result.isSuccessful){
-                result.body()?.let {
-                    suggestionDao.deleteMostRecent()
-                    val newSuggestion = it.toDatabaseModel()
-                    suggestionDao.insertSuggestion(newSuggestion)
-                    getSuggestionImage(newSuggestion.id, newSuggestion.activity)
+            try{
+                val result = BoredAPI.callApi.getSuggestion()
+                if(result.isSuccessful){
+                    result.body()?.let {
+                        suggestionDao.deleteMostRecent()
+                        val newSuggestion = it.toDatabaseModel()
+                        suggestionDao.insertSuggestion(newSuggestion)
+                        getSuggestionImage(newSuggestion.id, newSuggestion.activity)
+                    }
+                } else{
+                    _apiError.postValue(result.errorBody().toString())
                 }
-            } else{
-                _apiError.postValue(result.errorBody().toString())
+            } catch(e: Exception){
+                Log.e(TAG, e.stackTraceToString())
             }
         }
     }
