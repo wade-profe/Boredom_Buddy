@@ -49,9 +49,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:background="@drawable/circle"
-            tools:src="@drawable/thumbs_up_foreground"
+            android:src="@drawable/thumbs_up_foreground"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="25dp"
-            android:contentDescription="@string/add_to_favourites" />
+            android:contentDescription="@string/add_to_favourites"
+            android:onClick="@{() -> viewModel.getNewSuggestion()}"/>
+
+        <ProgressBar
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:indeterminate="true"
+            android:indeterminateTintMode="src_atop"
+            android:indeterminateTint="@color/white"
+            showLoading="@{viewModel.isLoading()}"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

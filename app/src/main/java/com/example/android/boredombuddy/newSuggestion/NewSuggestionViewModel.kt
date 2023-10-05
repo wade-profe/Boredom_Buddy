@@ -1,27 +1,35 @@
 package com.example.android.boredombuddy.newSuggestion
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android.boredombuddy.data.Suggestion
 import com.example.android.boredombuddy.data.SuggestionRepository
-import com.example.android.boredombuddy.data.local.SuggestionDatabase
-import com.example.android.boredombuddy.data.local.getDatabase
 import kotlinx.coroutines.launch
 
-class NewSuggestionViewModel(application: Application): AndroidViewModel(application) {
+class NewSuggestionViewModel(private val repository: SuggestionRepository) : ViewModel() {
 
-    private val database: SuggestionDatabase = getDatabase(application)
-    private val repository: SuggestionRepository = SuggestionRepository(database)
     val latestSuggestion: LiveData<Suggestion?> = repository.latestSuggestion
+    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData<Boolean>(false)
+    val isLoading: LiveData<Boolean>
+        get() = _isLoading
+    private val _error: MutableLiveData<String> = MutableLiveData<String>()
+    val error: LiveData<String>
+        get() = _error
 
     init {
-        if(latestSuggestion.value == null){
-            viewModelScope.launch{
-                repository.getNewSuggestion()
-            }
+        if (latestSuggestion.value == null) {
+            getNewSuggestion()
+        }
+    }
+
+    fun getNewSuggestion() {
+        _isLoading.value = true
+        viewModelScope.launch {
+            repository.getNewSuggestion()
+            _isLoading.postValue(false)
         }
     }
 }

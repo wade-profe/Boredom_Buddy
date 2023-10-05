@@ -1,4 +1,11 @@
 package com.example.android.boredombuddy.utils
 
+import android.widget.ProgressBar
+import androidx.core.view.isVisible
+import androidx.databinding.BindingAdapter
 
-    // TODO Insert any binding adapters here
+
+@BindingAdapter("showLoading")
+fun showLoading(progressBar: ProgressBar, isLoading: Boolean){
+    progressBar.isVisible = isLoading
+}

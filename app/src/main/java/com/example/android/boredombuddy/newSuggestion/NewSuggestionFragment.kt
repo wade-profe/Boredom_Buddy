@@ -6,20 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import com.example.android.boredombuddy.data.network.BoredAPI
-import com.example.android.boredombuddy.data.network.PexelAPI
-import com.example.android.boredombuddy.data.network.provideImageUrl
 import com.example.android.boredombuddy.databinding.NewSuggestionBinding
-import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 
 class NewSuggestionFragment: Fragment() {
 
     private lateinit var newSuggestionBinding: NewSuggestionBinding
-    private val viewModel: NewSuggestionViewModel by lazy {
-        ViewModelProvider(this)[NewSuggestionViewModel::class.java]
-    }
+    private val viewModel: NewSuggestionViewModel by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,6 +22,10 @@ class NewSuggestionFragment: Fragment() {
         newSuggestionBinding = NewSuggestionBinding.inflate(inflater, container, false)
         newSuggestionBinding.lifecycleOwner = this
         newSuggestionBinding.viewModel = viewModel
+
+        viewModel.error.observe(viewLifecycleOwner){
+            Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+        }
 
         return newSuggestionBinding.root
     }

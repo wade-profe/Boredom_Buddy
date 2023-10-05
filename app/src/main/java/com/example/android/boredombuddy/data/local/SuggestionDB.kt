@@ -1,6 +1,5 @@
 package com.example.android.boredombuddy.data.local
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Database
@@ -9,7 +8,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.PrimaryKey
 import androidx.room.Query
-import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.android.boredombuddy.data.Suggestion
 
@@ -71,20 +69,7 @@ interface SuggestionDao{
 
 @Database(entities = [DatabaseSuggestion::class],  version = 1)
 abstract class SuggestionDatabase: RoomDatabase(){
-    abstract val suggestionDao: SuggestionDao
-}
-
-private lateinit var INSTANCE: SuggestionDatabase
-
-fun getDatabase(context: Context): SuggestionDatabase {
-    synchronized(SuggestionDatabase::class.java) {
-        if (!::INSTANCE.isInitialized) {
-            INSTANCE = Room.databaseBuilder(context.applicationContext,
-                SuggestionDatabase::class.java,
-                "suggestions").fallbackToDestructiveMigration().build()
-        }
-    }
-    return INSTANCE
+    abstract fun getSuggestionDao(): SuggestionDao
 }
 
 
