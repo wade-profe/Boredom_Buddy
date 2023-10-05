@@ -15,15 +15,7 @@ class NewSuggestionViewModel(private val repository: SuggestionRepository) : Vie
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean>
         get() = _isLoading
-    private val _error: MutableLiveData<String> = MutableLiveData<String>()
-    val error: LiveData<String>
-        get() = _error
-
-    init {
-        if (latestSuggestion.value == null) {
-            getNewSuggestion()
-        }
-    }
+    val error: LiveData<String> = repository.apiError
 
     fun getNewSuggestion() {
         _isLoading.value = true

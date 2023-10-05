@@ -22,7 +22,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:src="@tools:sample/avatars"
+            tools:src="@drawable/placeholder_image"
+            app:setSrc="@{viewModel.latestSuggestion.imageUrl}"
             android:layout_marginTop="50dp"
             android:contentDescription="@string/activity_image" />
 
@@ -39,7 +40,7 @@
             android:textSize="32sp"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:text="@{viewModel.latestSuggestion.activity}"/>
+            android:text="@{viewModel.latestSuggestion.activity}" />
 
         <ImageView
             android:id="@+id/favourite"
