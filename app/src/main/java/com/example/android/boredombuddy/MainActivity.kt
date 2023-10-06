@@ -14,27 +14,31 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.android.boredombuddy.favourites.FavouritesFragment
 import com.example.android.boredombuddy.newSuggestion.NewSuggestionFragment
 import com.example.android.boredombuddy.newSuggestion.NewSuggestionViewModel
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.android.ext.android.inject
 
 const val FRAGMENT_COUNT = 2
 
 class MainActivity : AppCompatActivity() {
 
-
     private lateinit var navController: NavController
     private lateinit var viewPager: ViewPager2
+    private lateinit var tabLayout: TabLayout
     private lateinit var pagerAdapter: PagerAdapter
     private val viewModel: MainViewModel by inject()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        tabLayout = findViewById(R.id.tab_layout)
         viewPager = findViewById(R.id.view_pager)
         pagerAdapter = PagerAdapter(this)
         viewPager.adapter = pagerAdapter
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.myNavHostFragment) as NavHostFragment
         navController = navHostFragment.navController
+
+        TabLayoutMediator(tabLayout, viewPager) { _, _ -> }.attach()
 
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -62,9 +66,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // TODO Figure out how to show dots for ViewPager
-    // TODO add reload image
-    // TODO Add tutorial
+    // TODO Adjust placeholder image size
+    // TODO get error image
     // TODO implement suggestion save
     // TODO implement favourites
 }

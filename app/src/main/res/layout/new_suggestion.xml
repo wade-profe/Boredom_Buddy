@@ -26,6 +26,13 @@
                     android:layout_marginTop="16dp"
                     android:contentDescription="@string/activity_image" />
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/suggestion_image"
+                    app:layout_constraintEnd_toEndOf="@id/suggestion_image"
+                    android:src="@drawable/refresh_icon"/>
+
                 <TextView
                     android:id="@+id/suggestion"
                     tools:text="Prepare a 72-hour kit"
@@ -37,7 +44,6 @@
                     android:layout_marginTop="16dp"
                     android:textSize="32sp"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
                     android:text="@{viewModel.latestSuggestion.activity}" />
 
                 <ImageView
@@ -58,7 +64,6 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:indeterminate="true"
-                    android:indeterminateTint="@color/white"
                     android:indeterminateTintMode="src_atop"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
