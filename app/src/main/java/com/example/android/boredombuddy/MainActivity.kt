@@ -60,44 +60,13 @@ class MainActivity : AppCompatActivity() {
         viewModel.error.observe(this) {
             Toast.makeText(applicationContext, it, Toast.LENGTH_LONG).show()
         }
-
-//        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-//            override fun onPageSelected(position: Int) {
-//                super.onPageSelected(position)
-//                // Check the current destination fragment to prevent redundant navigation
-//                val currentDestinationId = navController.currentDestination?.id
-//
-//                when (position) {
-//                    0 -> {
-//                        if (currentDestinationId != R.id.newSuggestionFragment) {
-//                            // Detach the current fragment before navigating to the next one
-//                            val currentFragment = supportFragmentManager.findFragmentByTag("f0")
-//                            if (currentFragment != null) {
-//                                supportFragmentManager.beginTransaction().detach(currentFragment).commit()
-//                            }
-//
-//                            navController.navigate(R.id.action_favouritesFragment_to_newSuggestionFragment)
-//                        }
-//                    }
-//
-//                    1 -> {
-//                        if (currentDestinationId != R.id.favouritesFragment) {
-//                            // Detach the current fragment before navigating to the next one
-//                            val currentFragment = supportFragmentManager.findFragmentByTag("f1")
-//                            if (currentFragment != null) {
-//                                supportFragmentManager.beginTransaction().detach(currentFragment).commit()
-//                            }
-//
-//                            navController.navigate(R.id.action_newSuggestionFragment_to_favouritesFragment)
-//                        }
-//                    }
-//                }
-//            }
-//        })
-
-
-
     }
+
+    // TODO Figure out how to show dots for ViewPager
+    // TODO add reload image
+    // TODO Add tutorial
+    // TODO implement suggestion save
+    // TODO implement favourites
 }
 
 class PagerAdapter(fragmentActivity: FragmentActivity): FragmentStateAdapter(fragmentActivity) {
