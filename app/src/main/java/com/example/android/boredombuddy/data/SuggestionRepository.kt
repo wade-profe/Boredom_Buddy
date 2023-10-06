@@ -16,7 +16,10 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class SuggestionRepository(private val suggestionDao: SuggestionDao, val dispatcher: CoroutineDispatcher = Dispatchers.IO) {
+class SuggestionRepository(
+    private val suggestionDao: SuggestionDao,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+) {
 
     companion object {
         val TAG = SuggestionRepository::class.simpleName
@@ -34,36 +37,53 @@ class SuggestionRepository(private val suggestionDao: SuggestionDao, val dispatc
     private val _apiError: MutableLiveData<String> = MutableLiveData<String>()
     val apiError: LiveData<String>
         get() = _apiError
+    private val _isBusy: MutableLiveData<Boolean> = MutableLiveData<Boolean>()
+    val isBusy: LiveData<Boolean>
+        get() = _isBusy
 
-    suspend fun getNewSuggestion(){
-        withContext(dispatcher){
-            try{
+    suspend fun getNewSuggestion() {
+        _isBusy.value = true
+        withContext(dispatcher) {
+            try {
                 val result = BoredAPI.callApi.getSuggestion()
-                if(result.isSuccessful){
+                if (result.isSuccessful) {
                     result.body()?.let {
                         suggestionDao.deleteMostRecent()
                         val newSuggestion = it.toDatabaseModel()
                         suggestionDao.insertSuggestion(newSuggestion)
+                        // _isBusy value set to false early to prevent excessive load spinner visibility for longer image operation
+                        _isBusy.postValue(false)
                         getSuggestionImage(newSuggestion.id, newSuggestion.activity)
                     }
-                } else{
+                } else {
                     _apiError.postValue(result.errorBody().toString())
                 }
-            } catch(e: Exception){
+            } catch (e: Exception) {
                 Log.e(TAG, e.stackTraceToString())
+                _apiError.postValue("Error retrieving suggestion")
+            } finally {
+                _isBusy.postValue(false)
             }
         }
     }
 
-    private suspend fun getSuggestionImage(id: Long, query: String){
-        withContext(dispatcher){
-            val result = PexelAPI.callApi.getImage(query)
-            if(result.isSuccessful){
-                result.body()?.let {
-                    val url = it.provideImageUrl()
-                    suggestionDao.setSugestionImageUrl(id, url)
+    suspend fun getSuggestionImage(id: Long, query: String) {
+        withContext(dispatcher) {
+            try {
+                val result = PexelAPI.callApi.getImage(query)
+                if (result.isSuccessful) {
+                    result.body()?.let {
+                        val url = it.provideImageUrl()
+                        suggestionDao.setSugestionImageUrl(id, url)
+                    }
+                } else {
+                    _apiError.postValue(result.body().toString())
                 }
+            } catch (e: Exception) {
+                Log.e(TAG, e.stackTraceToString())
+                _apiError.postValue("Error loading image")
             }
+
         }
     }
 }

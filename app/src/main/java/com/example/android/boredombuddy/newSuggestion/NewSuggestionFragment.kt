@@ -55,9 +55,9 @@ class NewSuggestionFragment: Fragment() {
             }
         }
 
-        viewModel.error.observe(viewLifecycleOwner){
-            Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
-        }
+//        viewModel.error.observe(viewLifecycleOwner){
+//            Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+//        }
 
         return newSuggestionBinding.root
     }

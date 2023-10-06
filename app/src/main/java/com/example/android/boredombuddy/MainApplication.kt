@@ -61,6 +61,12 @@ class MainApplication : Application() {
                 )
             }
 
+            viewModel {
+                MainViewModel(
+                    get() as SuggestionRepository
+                )
+            }
+
             single { SuggestionRepository(get() as SuggestionDao) }
 
         }

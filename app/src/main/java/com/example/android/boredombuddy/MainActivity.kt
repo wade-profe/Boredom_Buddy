@@ -1,6 +1,7 @@
 package com.example.android.boredombuddy
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -12,6 +13,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.android.boredombuddy.favourites.FavouritesFragment
 import com.example.android.boredombuddy.newSuggestion.NewSuggestionFragment
+import com.example.android.boredombuddy.newSuggestion.NewSuggestionViewModel
+import org.koin.android.ext.android.inject
 
 const val FRAGMENT_COUNT = 2
 
@@ -21,6 +24,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var viewPager: ViewPager2
     private lateinit var pagerAdapter: PagerAdapter
+    private val viewModel: MainViewModel by inject()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,13 +57,52 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        viewModel.error.observe(this) {
+            Toast.makeText(applicationContext, it, Toast.LENGTH_LONG).show()
+        }
+
+//        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+//            override fun onPageSelected(position: Int) {
+//                super.onPageSelected(position)
+//                // Check the current destination fragment to prevent redundant navigation
+//                val currentDestinationId = navController.currentDestination?.id
+//
+//                when (position) {
+//                    0 -> {
+//                        if (currentDestinationId != R.id.newSuggestionFragment) {
+//                            // Detach the current fragment before navigating to the next one
+//                            val currentFragment = supportFragmentManager.findFragmentByTag("f0")
+//                            if (currentFragment != null) {
+//                                supportFragmentManager.beginTransaction().detach(currentFragment).commit()
+//                            }
+//
+//                            navController.navigate(R.id.action_favouritesFragment_to_newSuggestionFragment)
+//                        }
+//                    }
+//
+//                    1 -> {
+//                        if (currentDestinationId != R.id.favouritesFragment) {
+//                            // Detach the current fragment before navigating to the next one
+//                            val currentFragment = supportFragmentManager.findFragmentByTag("f1")
+//                            if (currentFragment != null) {
+//                                supportFragmentManager.beginTransaction().detach(currentFragment).commit()
+//                            }
+//
+//                            navController.navigate(R.id.action_newSuggestionFragment_to_favouritesFragment)
+//                        }
+//                    }
+//                }
+//            }
+//        })
+
+
 
     }
 }
 
 class PagerAdapter(fragmentActivity: FragmentActivity): FragmentStateAdapter(fragmentActivity) {
     override fun getItemCount(): Int {
-        return 2
+        return FRAGMENT_COUNT
     }
 
     override fun createFragment(position: Int): Fragment {

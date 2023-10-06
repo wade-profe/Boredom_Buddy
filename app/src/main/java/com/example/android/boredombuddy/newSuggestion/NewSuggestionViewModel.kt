@@ -9,19 +9,14 @@ import com.example.android.boredombuddy.data.Suggestion
 import com.example.android.boredombuddy.data.SuggestionRepository
 import kotlinx.coroutines.launch
 
-class NewSuggestionViewModel(private val repository: SuggestionRepository) : ViewModel() {
+class NewSuggestionViewModel(private val repository: SuggestionRepository): ViewModel() {
 
     val latestSuggestion: LiveData<Suggestion?> = repository.latestSuggestion
-    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData<Boolean>(false)
-    val isLoading: LiveData<Boolean>
-        get() = _isLoading
-    val error: LiveData<String> = repository.apiError
+    val isLoading: LiveData<Boolean> = repository.isBusy
 
     fun getNewSuggestion() {
-        _isLoading.value = true
         viewModelScope.launch {
             repository.getNewSuggestion()
-            _isLoading.postValue(false)
         }
     }
 }
