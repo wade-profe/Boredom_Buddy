@@ -24,14 +24,16 @@
                     tools:src="@drawable/placeholder_image"
                     app:setSrc="@{viewModel.latestSuggestion.imageUrl}"
                     android:layout_marginTop="16dp"
-                    android:contentDescription="@string/activity_image" />
+                    android:contentDescription="@string/suggestion_image" />
 
                 <ImageView
+                    android:id="@+id/reload_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="@id/suggestion_image"
                     app:layout_constraintEnd_toEndOf="@id/suggestion_image"
-                    android:src="@drawable/refresh_icon"/>
+                    android:src="@drawable/refresh_icon"
+                    android:onClick="@{() -> viewModel.getNewSuggestion()}"/>
 
                 <TextView
                     android:id="@+id/suggestion"
@@ -53,13 +55,14 @@
                     android:layout_marginTop="16dp"
                     android:background="@drawable/circle"
                     android:contentDescription="@string/add_to_favourites"
-                    android:onClick="@{() -> viewModel.getNewSuggestion()}"
+                    android:onClick="@{() -> viewModel.saveSuggestionToFavourites()}"
                     android:src="@drawable/thumbs_up_foreground"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
 
                 <ProgressBar
+                    android:id="@+id/progress_bar"
                     showLoading="@{viewModel.isLoading()}"
                     android:layout_width="100dp"
                     android:layout_height="100dp"

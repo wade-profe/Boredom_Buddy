@@ -6,6 +6,6 @@ import com.example.android.boredombuddy.data.SuggestionRepository
 
 open class MainViewModel(repository: SuggestionRepository): ViewModel() {
 
-    val error: LiveData<String> = repository.apiError
+    val message: LiveData<String> = repository.message
 
 }

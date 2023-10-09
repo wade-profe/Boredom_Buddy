@@ -19,5 +19,6 @@ fun showLoading(progressBar: ProgressBar, isLoading: Boolean){
 fun setImage(view: ImageView, imageUrl: String?){
     Picasso.with(view.context).load(imageUrl)
         .placeholder(R.drawable.placeholder_image)
+        .error(R.drawable.error_image)
         .into(view)
 }

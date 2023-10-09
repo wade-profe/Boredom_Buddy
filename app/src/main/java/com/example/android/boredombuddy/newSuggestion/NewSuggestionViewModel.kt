@@ -19,4 +19,10 @@ class NewSuggestionViewModel(private val repository: SuggestionRepository): View
             repository.getNewSuggestion()
         }
     }
+
+    fun saveSuggestionToFavourites(){
+        viewModelScope.launch {
+            repository.saveSuggestionToFavourites()
+        }
+    }
 }

@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Boredom Buddy</string>
     <string name="add_to_favourites">Add to favourites</string>
-    <string name="activity_image">Activity image</string>
+    <string name="suggestion_image">Suggestion image</string>
 </resources>

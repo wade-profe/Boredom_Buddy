@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="suggestion"
+            type="com.example.android.boredombuddy.data.Suggestion" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        style="@style/CardView.Dark"
+        app:cardCornerRadius="7dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp">
+
+            <ImageView
+                android:id="@+id/suggestion_image"
+                setSrc="@{suggestion.imageUrl}"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:contentDescription="@string/suggestion_image"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/placeholder_image" />
+
+            <TextView
+                android:id="@+id/suggestion_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="middle"
+                android:maxLines="2"
+                android:text="@{suggestion.activity}"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@id/delete_icon"
+                app:layout_constraintStart_toEndOf="@id/suggestion_image"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Learn how to design your own website" />
+
+            <TextView
+                android:id="@+id/suggestion_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{suggestion.type}"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@id/suggestion_text"
+                app:layout_constraintTop_toBottomOf="@id/suggestion_text"
+                tools:text="Casual" />
+
+            <ImageView
+                android:id="@+id/delete_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/delete_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/notification_icon"
+                android:padding="2dp"/>
+
+            <ImageView
+                android:id="@+id/notification_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/notification_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/share_button"
+                android:padding="2dp"/>
+
+            <ImageView
+                android:id="@+id/share_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/share_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/notification_icon"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                android:padding="2dp"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>

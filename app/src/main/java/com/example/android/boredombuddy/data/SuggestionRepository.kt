@@ -1,12 +1,11 @@
 package com.example.android.boredombuddy.data
 
+import android.database.sqlite.SQLiteConstraintException
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
-import androidx.lifecycle.switchMap
 import com.example.android.boredombuddy.data.local.SuggestionDao
-import com.example.android.boredombuddy.data.local.SuggestionDatabase
 import com.example.android.boredombuddy.data.local.toDomainModel
 import com.example.android.boredombuddy.data.network.BoredAPI
 import com.example.android.boredombuddy.data.network.PexelAPI
@@ -34,15 +33,15 @@ class SuggestionRepository(
         it?.toDomainModel()
     }
 
-    private val _apiError: MutableLiveData<String> = MutableLiveData<String>()
-    val apiError: LiveData<String>
-        get() = _apiError
+    private val _message: MutableLiveData<String> = MutableLiveData<String>()
+    val message: LiveData<String>
+        get() = _message
     private val _isBusy: MutableLiveData<Boolean> = MutableLiveData<Boolean>()
     val isBusy: LiveData<Boolean>
         get() = _isBusy
 
     suspend fun getNewSuggestion() {
-        _isBusy.value = true
+        _isBusy.postValue(true)
         withContext(dispatcher) {
             try {
                 val result = BoredAPI.callApi.getSuggestion()
@@ -56,18 +55,23 @@ class SuggestionRepository(
                         getSuggestionImage(newSuggestion.id, newSuggestion.activity)
                     }
                 } else {
-                    _apiError.postValue(result.errorBody().toString())
+                    _message.postValue(result.errorBody().toString())
                 }
             } catch (e: Exception) {
-                Log.e(TAG, e.stackTraceToString())
-                _apiError.postValue("Error retrieving suggestion")
+                if(e is SQLiteConstraintException){
+                    Log.d("WADE", "Duplicate found")
+                    getNewSuggestion()
+                } else {
+                    Log.e(TAG, e.stackTraceToString())
+                    _message.postValue("Error retrieving suggestion")
+                }
             } finally {
-                _isBusy.postValue(false)
+                    _isBusy.postValue(false)
+                }
             }
         }
-    }
 
-    suspend fun getSuggestionImage(id: Long, query: String) {
+    private suspend fun getSuggestionImage(id: Long, query: String) {
         withContext(dispatcher) {
             try {
                 val result = PexelAPI.callApi.getImage(query)
@@ -77,13 +81,21 @@ class SuggestionRepository(
                         suggestionDao.setSugestionImageUrl(id, url)
                     }
                 } else {
-                    _apiError.postValue(result.body().toString())
+                    _message.postValue(result.body().toString())
                 }
             } catch (e: Exception) {
                 Log.e(TAG, e.stackTraceToString())
-                _apiError.postValue("Error loading image")
+                _message.postValue("Error loading image")
             }
 
+        }
+    }
+
+    suspend fun saveSuggestionToFavourites(){
+        withContext(dispatcher){
+            suggestionDao.saveSuggestion()
+            _message.postValue("Suggestion saved!")
+            getNewSuggestion()
         }
     }
 }

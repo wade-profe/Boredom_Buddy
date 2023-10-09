@@ -6,14 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.android.boredombuddy.favourites.FavouritesFragment
 import com.example.android.boredombuddy.newSuggestion.NewSuggestionFragment
-import com.example.android.boredombuddy.newSuggestion.NewSuggestionViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.android.ext.android.inject
@@ -61,13 +58,11 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        viewModel.error.observe(this) {
+        viewModel.message.observe(this) {
             Toast.makeText(applicationContext, it, Toast.LENGTH_LONG).show()
         }
     }
 
-    // TODO Adjust placeholder image size
-    // TODO get error image
     // TODO implement suggestion save
     // TODO implement favourites
 }
