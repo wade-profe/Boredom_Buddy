@@ -1,18 +1,16 @@
 package com.example.android.boredombuddy
 
 import android.app.Application
-import android.content.Context
-import androidx.datastore.core.DataStore
 import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
 import androidx.datastore.preferences.SharedPreferencesMigration
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
-import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.room.Room
 import com.example.android.boredombuddy.data.SuggestionRepository
 import com.example.android.boredombuddy.data.local.SuggestionDao
 import com.example.android.boredombuddy.data.local.SuggestionDatabase
+import com.example.android.boredombuddy.favourites.FavouritesViewModel
 import com.example.android.boredombuddy.newSuggestion.NewSuggestionViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -57,6 +55,12 @@ class MainApplication : Application() {
 
             viewModel {
                 NewSuggestionViewModel(
+                    get() as SuggestionRepository
+                )
+            }
+
+            viewModel{
+                FavouritesViewModel(
                     get() as SuggestionRepository
                 )
             }

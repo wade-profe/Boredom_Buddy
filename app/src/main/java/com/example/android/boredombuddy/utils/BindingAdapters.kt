@@ -5,7 +5,10 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.example.android.boredombuddy.R
+import com.example.android.boredombuddy.data.Suggestion
+import com.example.android.boredombuddy.favourites.FavouritesListAdapter
 import com.example.android.boredombuddy.newSuggestion.NewSuggestionViewModel
 import com.squareup.picasso.Picasso
 
@@ -21,4 +24,10 @@ fun setImage(view: ImageView, imageUrl: String?){
         .placeholder(R.drawable.placeholder_image)
         .error(R.drawable.error_image)
         .into(view)
+}
+
+@BindingAdapter("listData")
+fun setRecycleViewList(recyclerView: RecyclerView, data: List<Suggestion>?){
+    val adapter = recyclerView.adapter as FavouritesListAdapter
+    adapter.submitList(data)
 }

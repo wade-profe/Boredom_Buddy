@@ -3,6 +3,12 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.android.boredombuddy.favourites.FavouritesViewModel" />
+    </data>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
@@ -20,11 +26,13 @@
                     android:textSize="48sp"/>
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/favourites_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/header">
+                    app:layout_constraintTop_toBottomOf="@id/header"
+                    app:listData="@{viewModel.favouritesList}">
 
                 </androidx.recyclerview.widget.RecyclerView>
 

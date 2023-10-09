@@ -24,10 +24,10 @@ class SuggestionRepository(
         val TAG = SuggestionRepository::class.simpleName
     }
 
-//    val favouritesList: LiveData<List<Suggestion>?> =
-//        database.suggestionDao.getFavourites().map {
-//        it.toDomainModel()
-//    }
+    val favouritesList: LiveData<List<Suggestion>?> =
+        suggestionDao.getFavourites().map {
+        it.toDomainModel()
+    }
 
     val latestSuggestion: LiveData<Suggestion?> = suggestionDao.getLatestSuggestion().map {
         it?.toDomainModel()
@@ -59,7 +59,7 @@ class SuggestionRepository(
                 }
             } catch (e: Exception) {
                 if(e is SQLiteConstraintException){
-                    Log.d("WADE", "Duplicate found")
+                    Log.e(TAG, "Duplicate suggestion found, trying again")
                     getNewSuggestion()
                 } else {
                     Log.e(TAG, e.stackTraceToString())
