@@ -26,8 +26,8 @@ class SuggestionRepository(
 
     val favouritesList: LiveData<List<Suggestion>?> =
         suggestionDao.getFavourites().map {
-        it.toDomainModel()
-    }
+            it?.toDomainModel()
+        }
 
     val latestSuggestion: LiveData<Suggestion?> = suggestionDao.getLatestSuggestion().map {
         it?.toDomainModel()

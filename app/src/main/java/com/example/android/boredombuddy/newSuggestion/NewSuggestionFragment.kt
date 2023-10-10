@@ -14,12 +14,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.android.boredombuddy.databinding.NewSuggestionBinding
-import kotlinx.coroutines.Dispatchers.Default
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -31,6 +26,10 @@ private object PreferencesKeys {
 data class FirstTime(val firstTime: Boolean)
 
 class NewSuggestionFragment : Fragment() {
+
+    init {
+        Log.d("WADE", this.toString())
+    }
 
     private lateinit var newSuggestionBinding: NewSuggestionBinding
     private val viewModel: NewSuggestionViewModel by inject()
@@ -47,6 +46,7 @@ class NewSuggestionFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.d("WADE", "${NewSuggestionFragment::class.java.simpleName} onCreateView")
         newSuggestionBinding = NewSuggestionBinding.inflate(inflater, container, false)
 
         newSuggestionBinding.viewModel = viewModel
@@ -58,11 +58,13 @@ class NewSuggestionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d("WADE", "${NewSuggestionFragment::class.java.simpleName} onViewCreated")
 
-            viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED){
                     userPreferencesFlow.collect()
                      { firstTime ->
+                         Log.d("WADE", "First time? $firstTime")
                         if (firstTime.firstTime) {
                             viewModel.getNewSuggestion()
                             datastore.edit {
@@ -74,4 +76,8 @@ class NewSuggestionFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.d("WADE", "${NewSuggestionFragment::class.java.simpleName} onResume")
+    }
 }

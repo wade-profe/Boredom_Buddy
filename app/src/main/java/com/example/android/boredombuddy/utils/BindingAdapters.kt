@@ -1,15 +1,14 @@
 package com.example.android.boredombuddy.utils
 
+import android.util.Log
 import android.widget.ImageView
 import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.boredombuddy.R
 import com.example.android.boredombuddy.data.Suggestion
 import com.example.android.boredombuddy.favourites.FavouritesListAdapter
-import com.example.android.boredombuddy.newSuggestion.NewSuggestionViewModel
 import com.squareup.picasso.Picasso
 
 
@@ -29,6 +28,8 @@ fun setImage(view: ImageView, imageUrl: String?){
 
 @BindingAdapter("listData")
 fun setRecycleViewList(recyclerView: RecyclerView, data: List<Suggestion>?){
+    Log.d("WADE", "setRecyclerViewList called")
+    Log.d("WADE", "Suggestion list:\n$data")
     val adapter = recyclerView.adapter as FavouritesListAdapter
-    adapter.submitList(data)
+    data?.let { adapter.submitList(ArrayList(data)) }
 }

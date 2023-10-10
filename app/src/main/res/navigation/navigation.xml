@@ -2,22 +2,11 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navigation"
-    app:startDestination="@id/newSuggestionFragment">
+    app:startDestination="@id/viewPagerFragment">
 
     <fragment
-        android:id="@+id/newSuggestionFragment"
-        android:name="com.example.android.boredombuddy.newSuggestion.NewSuggestionFragment"
-        android:label="NewSuggestionFragment" >
-        <action
-            android:id="@+id/action_newSuggestionFragment_to_favouritesFragment"
-            app:destination="@id/favouritesFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/favouritesFragment"
-        android:name="com.example.android.boredombuddy.favourites.FavouritesFragment"
-        android:label="FavouritesFragment" >
-        <action
-            android:id="@+id/action_favouritesFragment_to_newSuggestionFragment"
-            app:destination="@id/newSuggestionFragment" />
-    </fragment>
+        android:id="@+id/viewPagerFragment"
+        android:name="com.example.android.boredombuddy.ViewPagerFragment"
+        android:label="ViewPagerFragment" />
+
 </navigation>

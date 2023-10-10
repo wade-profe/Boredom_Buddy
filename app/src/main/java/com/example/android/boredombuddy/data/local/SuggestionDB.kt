@@ -51,7 +51,7 @@ interface SuggestionDao{
     suspend fun deleteSuggestion(id: Long)
 
     @Query("SELECT * FROM DatabaseSuggestion WHERE mostRecent = 0")
-    fun getFavourites(): LiveData<List<DatabaseSuggestion>>
+    fun getFavourites(): LiveData<List<DatabaseSuggestion>?>
 
     @Query("UPDATE DatabaseSuggestion SET mostRecent = 0 WHERE mostRecent = 1")
     suspend fun saveSuggestion()
