@@ -1,6 +1,7 @@
 package com.example.android.boredombuddy.newSuggestion
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +10,16 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.android.boredombuddy.databinding.NewSuggestionBinding
+import kotlinx.coroutines.Dispatchers.Default
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -34,6 +41,7 @@ class NewSuggestionFragment : Fragment() {
             FirstTime(firstTime)
         }
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -45,17 +53,25 @@ class NewSuggestionFragment : Fragment() {
 
         newSuggestionBinding.lifecycleOwner = this
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            userPreferencesFlow.collectLatest { firstTime ->
-                if (firstTime.firstTime) {
-                    viewModel.getNewSuggestion()
-                }
-            }
-            datastore.edit {
-                it[PreferencesKeys.FIRST_TIME] = false
-            }
-        }
-
         return newSuggestionBinding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED){
+                    userPreferencesFlow.collect()
+                     { firstTime ->
+                        if (firstTime.firstTime) {
+                            viewModel.getNewSuggestion()
+                            datastore.edit {
+                                it[PreferencesKeys.FIRST_TIME] = false
+                            }
+                        }
+                    }
+                }
+        }
+    }
+
 }

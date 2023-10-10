@@ -48,7 +48,7 @@ class MainApplication : Application() {
                 ).build()
             }
 
-            single<SuggestionDao> {
+            single {
                 val database = get<SuggestionDatabase>()
                 database.getSuggestionDao()
             }

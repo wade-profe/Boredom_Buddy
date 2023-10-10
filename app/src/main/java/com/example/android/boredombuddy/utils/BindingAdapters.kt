@@ -20,10 +20,11 @@ fun showLoading(progressBar: ProgressBar, isLoading: Boolean){
 
 @BindingAdapter("setSrc")
 fun setImage(view: ImageView, imageUrl: String?){
-    Picasso.with(view.context).load(imageUrl)
-        .placeholder(R.drawable.placeholder_image)
-        .error(R.drawable.error_image)
-        .into(view)
+        Picasso.with(view.context).load(imageUrl)
+            .fit()
+            .placeholder(R.drawable.placeholder_image)
+            .error(R.drawable.error_image)
+            .into(view)
 }
 
 @BindingAdapter("listData")
