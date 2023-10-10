@@ -28,8 +28,6 @@ fun setImage(view: ImageView, imageUrl: String?){
 
 @BindingAdapter("listData")
 fun setRecycleViewList(recyclerView: RecyclerView, data: List<Suggestion>?){
-    Log.d("WADE", "setRecyclerViewList called")
-    Log.d("WADE", "Suggestion list:\n$data")
     val adapter = recyclerView.adapter as FavouritesListAdapter
     data?.let { adapter.submitList(ArrayList(data)) }
 }
