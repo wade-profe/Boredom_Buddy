@@ -41,8 +41,5 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(applicationContext, it, Toast.LENGTH_LONG).show()
         }
     }
-
-    // TODO implement suggestion save
-    // TODO implement favourites
 }
 

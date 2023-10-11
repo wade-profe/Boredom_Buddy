@@ -18,13 +18,12 @@ class FavouritesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.d("WADE", "${FavouritesFragment::class.java.simpleName} onCreateView")
         favouritesBinding = FragmentFavouritesBinding.inflate(inflater, container, false)
         favouritesBinding.lifecycleOwner =this
         favouritesBinding.viewModel = viewModel
         val adapter = FavouritesListAdapter(
             {suggestion ->
-                Log.d("WADE", suggestion.activity)
+                viewModel.deleteSuggestion(suggestion.id)
             },
             {suggestion ->
                 Log.d("WADE", suggestion.activity)

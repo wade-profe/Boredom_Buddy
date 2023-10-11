@@ -27,10 +27,6 @@ data class FirstTime(val firstTime: Boolean)
 
 class NewSuggestionFragment : Fragment() {
 
-    init {
-        Log.d("WADE", this.toString())
-    }
-
     private lateinit var newSuggestionBinding: NewSuggestionBinding
     private val viewModel: NewSuggestionViewModel by inject()
     private val datastore: DataStore<Preferences> by inject()
@@ -46,7 +42,6 @@ class NewSuggestionFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.d("WADE", "${NewSuggestionFragment::class.java.simpleName} onCreateView")
         newSuggestionBinding = NewSuggestionBinding.inflate(inflater, container, false)
 
         newSuggestionBinding.viewModel = viewModel
@@ -58,13 +53,11 @@ class NewSuggestionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("WADE", "${NewSuggestionFragment::class.java.simpleName} onViewCreated")
 
         viewLifecycleOwner.lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED){
                     userPreferencesFlow.collect()
                      { firstTime ->
-                         Log.d("WADE", "First time? $firstTime")
                         if (firstTime.firstTime) {
                             viewModel.getNewSuggestion()
                             datastore.edit {

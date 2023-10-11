@@ -2,4 +2,5 @@
     <string name="app_name">Boredom Buddy</string>
     <string name="add_to_favourites">Add to favourites</string>
     <string name="suggestion_image">Suggestion image</string>
+    <string name="no_data">Favourites list empty</string>
 </resources>

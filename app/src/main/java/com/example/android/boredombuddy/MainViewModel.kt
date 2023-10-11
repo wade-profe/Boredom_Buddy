@@ -1,11 +1,15 @@
 package com.example.android.boredombuddy
 
-import androidx.lifecycle.LiveData
+import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.example.android.boredombuddy.data.SuggestionRepository
+import com.example.android.boredombuddy.utils.SingleLiveEvent
 
-open class MainViewModel(repository: SuggestionRepository): ViewModel() {
+class MainViewModel: ViewModel() {
 
-    val message: LiveData<String> = repository.message
+    init {
+        Log.d("WADE", "MainViewModel initialized: $this")
+    }
+
+    val message = SingleLiveEvent<String>()
 
 }

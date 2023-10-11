@@ -1,6 +1,8 @@
 package com.example.android.boredombuddy.utils
 
+import android.opengl.Visibility
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.core.view.isVisible
@@ -30,4 +32,13 @@ fun setImage(view: ImageView, imageUrl: String?){
 fun setRecycleViewList(recyclerView: RecyclerView, data: List<Suggestion>?){
     val adapter = recyclerView.adapter as FavouritesListAdapter
     data?.let { adapter.submitList(ArrayList(data)) }
+}
+
+@BindingAdapter("setVisibility")
+fun setVisibility(view: View, showNoData: Boolean){
+    if(showNoData){
+        view.visibility = View.VISIBLE
+    } else{
+        view.visibility = View.INVISIBLE
+    }
 }
