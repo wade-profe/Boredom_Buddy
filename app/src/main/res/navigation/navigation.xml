@@ -25,6 +25,13 @@
         <argument
             android:name="suggestion"
             app:argType="com.example.android.boredombuddy.data.Suggestion" />
+        <action
+            android:id="@+id/action_setNotification_to_timePickerFragment"
+            app:destination="@id/timePickerFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/timePickerFragment"
+        android:name="com.example.android.boredombuddy.setNotification.TimePickerFragment"
+        android:label="fragment_time_picker" />
 
 </navigation>

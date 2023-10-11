@@ -1,8 +1,6 @@
 package com.example.android.boredombuddy.data
 
-import android.os.Bundle
 import android.os.Parcelable
-import androidx.navigation.NavType
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
