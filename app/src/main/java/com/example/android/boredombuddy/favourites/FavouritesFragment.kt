@@ -6,6 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
+import com.example.android.boredombuddy.R
 import com.example.android.boredombuddy.databinding.FragmentFavouritesBinding
 import org.koin.android.ext.android.inject
 
@@ -26,7 +29,7 @@ class FavouritesFragment : Fragment() {
                 viewModel.deleteSuggestion(suggestion.id)
             },
             {suggestion ->
-                Log.d("WADE", suggestion.activity)
+                findNavController().navigate(R.id.action_viewPagerFragment_to_setNotification, bundleOf("suggestion" to suggestion))
             },
             {suggestion ->
                 Log.d("WADE", suggestion.activity)

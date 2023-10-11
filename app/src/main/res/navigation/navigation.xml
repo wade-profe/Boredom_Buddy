@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
     app:startDestination="@id/viewPagerFragment">
 
     <fragment
         android:id="@+id/viewPagerFragment"
         android:name="com.example.android.boredombuddy.ViewPagerFragment"
-        android:label="ViewPagerFragment" />
+        android:label="ViewPagerFragment" >
+        <action
+            android:id="@+id/action_viewPagerFragment_to_setNotification"
+            app:destination="@id/setNotification"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/setNotification"
+        android:name="com.example.android.boredombuddy.setNotification.SetNotification"
+        android:label="fragment_set_notification"
+        tools:layout="@layout/fragment_set_notification" >
+        <argument
+            android:name="suggestion"
+            app:argType="com.example.android.boredombuddy.data.Suggestion" />
+    </fragment>
 
 </navigation>
