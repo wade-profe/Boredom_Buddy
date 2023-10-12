@@ -41,5 +41,9 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(applicationContext, it, Toast.LENGTH_LONG).show()
         }
     }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp()
+    }
 }
 

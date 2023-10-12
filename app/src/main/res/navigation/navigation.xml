@@ -26,12 +26,28 @@
             android:name="suggestion"
             app:argType="com.example.android.boredombuddy.data.Suggestion" />
         <action
+            android:id="@+id/action_setNotification_to_datePickerFragment"
+            app:destination="@id/datePickerFragment" />
+        <action
             android:id="@+id/action_setNotification_to_timePickerFragment"
             app:destination="@id/timePickerFragment" />
+        <action
+            android:id="@+id/action_setNotification_to_viewPagerFragment2"
+            app:destination="@id/viewPagerFragment"
+            app:popUpTo="@id/setNotification"
+            app:popUpToInclusive="true" />
     </fragment>
     <dialog
         android:id="@+id/timePickerFragment"
         android:name="com.example.android.boredombuddy.setNotification.TimePickerFragment"
-        android:label="fragment_time_picker" />
+        android:label="fragment_time_picker" >
+        <argument android:name="calendar"
+            app:argType="java.util.Calendar" />
+    </dialog>
+    <dialog
+        android:id="@+id/datePickerFragment"
+        android:name="com.example.android.boredombuddy.setNotification.DatePickerFragment"
+        android:label="DatePickerFragment" >
+    </dialog>
 
 </navigation>

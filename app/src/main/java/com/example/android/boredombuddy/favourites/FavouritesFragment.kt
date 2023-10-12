@@ -22,7 +22,7 @@ class FavouritesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         favouritesBinding = FragmentFavouritesBinding.inflate(inflater, container, false)
-        favouritesBinding.lifecycleOwner =this
+        favouritesBinding.lifecycleOwner = this
         favouritesBinding.viewModel = viewModel
         val adapter = FavouritesListAdapter(
             {suggestion ->

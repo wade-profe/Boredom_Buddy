@@ -1,10 +1,12 @@
 package com.example.android.boredombuddy.utils
 
 import android.opengl.Visibility
+import android.text.format.DateFormat
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +14,9 @@ import com.example.android.boredombuddy.R
 import com.example.android.boredombuddy.data.Suggestion
 import com.example.android.boredombuddy.favourites.FavouritesListAdapter
 import com.squareup.picasso.Picasso
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 
 @BindingAdapter("showLoading")
@@ -40,5 +45,12 @@ fun setVisibility(view: View, showNoData: Boolean){
         view.visibility = View.VISIBLE
     } else{
         view.visibility = View.INVISIBLE
+    }
+}
+
+@BindingAdapter("timeText")
+fun setTimeText(view: TextView, millis: Long?){
+    millis?.let {
+        view.text = SimpleDateFormat.getDateTimeInstance().format(Date(millis))
     }
 }
