@@ -49,6 +49,8 @@ class NewSuggestionFragment : Fragment() {
         newSuggestionBinding.lifecycleOwner = this
 
         return newSuggestionBinding.root
+
+        // TODO add animation
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

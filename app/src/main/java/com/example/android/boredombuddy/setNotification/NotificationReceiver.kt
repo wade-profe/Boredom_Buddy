@@ -1,0 +1,29 @@
+package com.example.android.boredombuddy.setNotification
+
+import android.app.NotificationManager
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.os.Build
+import android.os.Parcelable
+import android.util.Log
+import com.example.android.boredombuddy.data.Suggestion
+import com.example.android.boredombuddy.utils.getNotificationManager
+import com.example.android.boredombuddy.utils.sendNotification
+
+class NotificationReceiver: BroadcastReceiver() {
+
+    override fun onReceive(context: Context?, intent: Intent?) {
+
+        Log.d("WADE", "Broadcast received hit")
+        val requestCode = intent?.getIntExtra("requestCode", 0)
+        val suggestion = intent?.parcelable<Suggestion>("suggestion")
+
+        context!!.getNotificationManager().sendNotification(context, requestCode!!, suggestion!!)
+    }
+
+    private inline fun <reified T : Parcelable> Intent.parcelable(key: String): T? = when {
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getParcelableExtra(key, T::class.java)
+        else -> @Suppress("DEPRECATION") getParcelableExtra(key) as? T
+    }
+}

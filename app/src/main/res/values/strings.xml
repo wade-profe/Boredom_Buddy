@@ -3,6 +3,6 @@
     <string name="add_to_favourites">Add to favourites</string>
     <string name="suggestion_image">Suggestion image</string>
     <string name="no_data">Favourites list empty</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="notification_channel_name">Suggestion Reminders</string>
+
 </resources>

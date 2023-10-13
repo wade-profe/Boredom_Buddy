@@ -52,5 +52,6 @@ fun setVisibility(view: View, showNoData: Boolean){
 fun setTimeText(view: TextView, millis: Long?){
     millis?.let {
         view.text = SimpleDateFormat.getDateTimeInstance().format(Date(millis))
+        // TODO remove seconds from formatted date
     }
 }

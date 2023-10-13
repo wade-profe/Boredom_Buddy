@@ -70,7 +70,7 @@ class MainApplication : Application() {
             }
 
             viewModel{
-                SetNotificationViewModel()
+                SetNotificationViewModel(get() as MainViewModel)
             }
 
             single{

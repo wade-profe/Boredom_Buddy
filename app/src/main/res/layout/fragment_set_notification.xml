@@ -49,5 +49,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:text="CHOOSE TIME"/>
 
+        <Button
+            android:id="@+id/set_notification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_margin="10dp"
+            android:text="SET NOTIFICATION" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

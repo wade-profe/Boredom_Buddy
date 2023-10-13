@@ -27,6 +27,7 @@ class FavouritesFragment : Fragment() {
         val adapter = FavouritesListAdapter(
             {suggestion ->
                 viewModel.deleteSuggestion(suggestion.id)
+                // TODO also delete any scheduled notifications
             },
             {suggestion ->
                 findNavController().navigate(R.id.action_viewPagerFragment_to_setNotification, bundleOf("suggestion" to suggestion))
@@ -34,6 +35,9 @@ class FavouritesFragment : Fragment() {
             {suggestion ->
                 Log.d("WADE", suggestion.activity)
             }
+            
+            // TODO check for permissions for notification
+
         )
 
         favouritesBinding.favouritesRecyclerView.adapter = adapter

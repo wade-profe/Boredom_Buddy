@@ -1,13 +1,22 @@
 package com.example.android.boredombuddy.setNotification
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
+import com.example.android.boredombuddy.MainApplication
+import com.example.android.boredombuddy.MainViewModel
+import com.example.android.boredombuddy.data.Suggestion
+import com.example.android.boredombuddy.utils.getAlarmManager
+import com.example.android.boredombuddy.utils.scheduleNotification
+import org.koin.dsl.koinApplication
+import java.time.Instant
 import java.util.Calendar
+import java.util.Date
 
-class SetNotificationViewModel : ViewModel() {
+class SetNotificationViewModel(private val baseViewModel: MainViewModel) : ViewModel() {
 
     private val _calendar = MutableLiveData(Calendar.getInstance())
     val calendar: LiveData<Calendar>
@@ -20,11 +29,6 @@ class SetNotificationViewModel : ViewModel() {
 
     val timeInMillis: LiveData<Long> = _calendar.map {
         it.timeInMillis
-    }
-
-    init {
-        Log.d("WADE", this.toString())
-//        calendar.value = Calendar.getInstance()
     }
 
     fun updateCalendar(
@@ -68,6 +72,24 @@ class SetNotificationViewModel : ViewModel() {
 
         _calendar.value = newCalendar
 
+    }
+
+    fun scheduleNotification(context: Context, suggestion: Suggestion){
+
+        Log.d("SN(viewmodel)", "Method hit. suggestion: ${suggestion.activity}")
+        Log.d("SN(viewmodel)", "context variable: $context")
+        Log.d("SN(viewmodel)", "suggestion variable: ${suggestion.activity}")
+
+
+        if(Calendar.getInstance().timeInMillis >= timeInMillis.value!!){
+            baseViewModel.message.value = "Invalid time and date selected"
+        } else {
+            with(context){
+                Log.d("SN(viewmodel)", "calling scheduleNotification method from alarm manager")
+                getAlarmManager().scheduleNotification(this, suggestion, timeInMillis.value!!)
+            }
+            baseViewModel.message.value = "Notification saved!"
+        }
     }
 
     fun launchTimePicker() {
