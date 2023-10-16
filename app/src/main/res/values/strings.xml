@@ -4,5 +4,6 @@
     <string name="suggestion_image">Suggestion image</string>
     <string name="no_data">Favourites list empty</string>
     <string name="notification_channel_name">Suggestion Reminders</string>
+    <string name="seleted_activity">Selected activity: %1$s</string>
 
 </resources>

@@ -17,6 +17,7 @@ import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.SimpleTimeZone
 
 
 @BindingAdapter("showLoading")
@@ -51,7 +52,8 @@ fun setVisibility(view: View, showNoData: Boolean){
 @BindingAdapter("timeText")
 fun setTimeText(view: TextView, millis: Long?){
     millis?.let {
-        view.text = SimpleDateFormat.getDateTimeInstance().format(Date(millis))
-        // TODO remove seconds from formatted date
+        view.text = SimpleDateFormat
+            .getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT)
+            .format(Date(millis))
     }
 }
