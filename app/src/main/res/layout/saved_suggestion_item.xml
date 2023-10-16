@@ -37,14 +37,32 @@
                 android:id="@+id/suggestion_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:ellipsize="middle"
-                android:maxLines="2"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:text="@{suggestion.activity}"
                 android:textSize="16sp"
+                android:fontFamily="@font/finger_paint"
                 app:layout_constraintBottom_toTopOf="@id/delete_icon"
                 app:layout_constraintStart_toEndOf="@id/suggestion_image"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Learn how to design your own website" />
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="Learn how to design your own website"
+                android:layout_marginStart="8dp"/>
+
+            <TextView
+                android:id="@+id/suggestion_link"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/suggestion_text"
+                app:layout_constraintBottom_toTopOf="@id/suggestion_category"
+                app:layout_constraintStart_toEndOf="@id/suggestion_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:setTextOrHide="@{suggestion.link}"
+                android:autoLink="web"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:fontFamily="@font/finger_paint"
+                android:layout_marginStart="8dp"/>
 
             <TextView
                 android:id="@+id/suggestion_category"
@@ -52,9 +70,11 @@
                 android:layout_height="wrap_content"
                 android:text="@{suggestion.type}"
                 android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="@id/suggestion_text"
-                app:layout_constraintTop_toBottomOf="@id/suggestion_text"
-                tools:text="Casual" />
+                app:layout_constraintStart_toEndOf="@id/suggestion_image"
+                app:layout_constraintTop_toBottomOf="@id/suggestion_link"
+                tools:text="Casual"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/finger_paint"/>
 
             <ImageView
                 android:id="@+id/delete_icon"
@@ -62,6 +82,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/delete_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/suggestion_link"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/notification_icon"
@@ -73,6 +94,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/notification_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/suggestion_link"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/share_button"
                 android:padding="2dp"/>
@@ -83,6 +105,8 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/share_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/suggestion_link"
+
                 app:layout_constraintEnd_toStartOf="@+id/notification_icon"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 android:padding="2dp"/>

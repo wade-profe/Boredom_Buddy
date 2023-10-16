@@ -57,3 +57,12 @@ fun setTimeText(view: TextView, millis: Long?){
             .format(Date(millis))
     }
 }
+
+@BindingAdapter("setTextOrHide")
+fun setTextOrHide(view: TextView, text: String?){
+    if(text.isNullOrEmpty()){
+        view.visibility = View.GONE
+    } else {
+        view.text = text
+    }
+}

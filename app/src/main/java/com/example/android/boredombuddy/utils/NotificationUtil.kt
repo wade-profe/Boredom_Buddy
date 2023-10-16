@@ -8,7 +8,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Build
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
@@ -18,13 +17,11 @@ import com.example.android.boredombuddy.R
 import com.example.android.boredombuddy.data.Suggestion
 import com.example.android.boredombuddy.setNotification.NotificationReceiver
 import com.squareup.picasso.Picasso
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.invoke
 import kotlinx.coroutines.launch
-import kotlin.coroutines.coroutineContext
 
 
 private const val NOTIFICATION_CHANNEL_ID = BuildConfig.APPLICATION_ID + ".channel"
@@ -46,13 +43,9 @@ fun NotificationManager.sendNotification(
 
     lateinit var image: Bitmap
 
-    Log.d("WADE", "Send notification hit")
-
-
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
         && getNotificationChannel(NOTIFICATION_CHANNEL_ID) == null
     ) {
-        Log.d("WADE", "Building notification channel")
 
         val name = context.getString(R.string.notification_channel_name)
         val channel = NotificationChannel(
@@ -73,25 +66,23 @@ fun NotificationManager.sendNotification(
 
     GlobalScope.launch(Dispatchers.IO) {
         image = try {
-            Log.d("WADE", "Trying to download image")
             Picasso.with(context).load(suggestion.imageUrl).resize(1440, 720).get()
         } catch (e: Exception) {
-            Log.d("WADE", "Exception in image download attempt")
             e.printStackTrace()
-            ContextCompat.getDrawable(context, R.drawable.error_image)!!.toBitmap(256, 256)
+            ContextCompat.getDrawable(context, R.drawable.error_image)!!.toBitmap(1440, 720)
         }
 
         val notification = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
             .setContentTitle(context.getString(R.string.notification_channel_name))
             .setContentText(suggestion.activity)
             .setSmallIcon(R.drawable.notification_icon)
-            .setStyle(NotificationCompat.BigPictureStyle()
-                .bigPicture(image))
+            .setStyle(
+                NotificationCompat.BigPictureStyle()
+                    .bigPicture(image)
+            )
             .setContentIntent(contentIntent)
             .setAutoCancel(true)
             .build()
-
-        Log.d("WADE", "Sending notification")
 
         notify(requestCode, notification)
     }
@@ -104,15 +95,14 @@ fun AlarmManager.scheduleNotification(
     notificationTimeInMillis: Long
 ) {
 
-    Log.d(
-        "SN(alarmManager)",
-        "Method hit. suggestion: ${suggestion.activity} and timeinMillis: $notificationTimeInMillis"
-    )
-    Log.d("SN(alarmManager)", "context variable: $context")
+    val pendingIntent = makePendingIntent(context, suggestion)
+    set(AlarmManager.RTC, notificationTimeInMillis, pendingIntent)
 
+}
 
+fun makePendingIntent(context: Context, suggestion: Suggestion): PendingIntent {
     val requestCode = suggestion.id.toInt()
-    val pendingIntent = PendingIntent.getBroadcast(
+    return PendingIntent.getBroadcast(
         context,
         requestCode,
         Intent(context, NotificationReceiver::class.java).apply {
@@ -121,14 +111,5 @@ fun AlarmManager.scheduleNotification(
         },
         PendingIntent.FLAG_IMMUTABLE
     )
-
-    try {
-        Log.d("SN(alarmManager)", "calling set method")
-        set(AlarmManager.RTC, notificationTimeInMillis, pendingIntent)
-        Log.d("SN(alarmManager)", "Made it past set method")
-    } catch (e: Exception) {
-        Log.d("SN(alarmManager)", e.stackTrace.toString())
-    }
-
 }
 

@@ -15,7 +15,6 @@ class NotificationReceiver: BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
 
-        Log.d("WADE", "Broadcast received hit")
         val requestCode = intent?.getIntExtra("requestCode", 0)
         val suggestion = intent?.parcelable<Suggestion>("suggestion")
 

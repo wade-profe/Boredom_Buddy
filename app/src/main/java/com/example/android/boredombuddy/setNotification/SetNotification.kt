@@ -33,6 +33,8 @@ class SetNotification : Fragment() {
             }
         }
 
+        // TODO Fix set reminder views positioning
+
         return setNotificationBinding.root
     }
 
@@ -44,8 +46,9 @@ class SetNotification : Fragment() {
         }
 
         setNotificationBinding.setNotification.setOnClickListener {
-            viewModel.scheduleNotification(requireContext().applicationContext, suggestion)
-            findNavController().popBackStack()
+            if(viewModel.scheduleNotification(requireContext().applicationContext, suggestion)){
+                findNavController().popBackStack()
+            }
         }
     }
 }

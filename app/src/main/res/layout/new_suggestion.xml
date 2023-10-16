@@ -14,16 +14,26 @@
                 android:layout_height="match_parent"
                 android:padding="16dp">
 
+                <TextView
+                    android:id="@+id/new_suggestion_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="What to do?"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    style="@style/page_title" />
+
                 <ImageView
                     android:id="@+id/suggestion_image"
                     android:layout_width="0dp"
                     android:layout_height="200dp"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/new_suggestion_header"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     tools:src="@drawable/placeholder_image"
                     app:setSrc="@{viewModel.latestSuggestion.imageUrl}"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="25dp"
                     android:contentDescription="@string/suggestion_image" />
 
                 <ImageView
@@ -33,7 +43,7 @@
                     app:layout_constraintTop_toTopOf="@id/suggestion_image"
                     app:layout_constraintEnd_toEndOf="@id/suggestion_image"
                     android:src="@drawable/refresh_icon"
-                    android:onClick="@{() -> viewModel.getNewSuggestion()}"/>
+                    android:onClick="@{() -> viewModel.getNewSuggestion()}" />
 
                 <TextView
                     android:id="@+id/suggestion"
@@ -46,7 +56,18 @@
                     android:layout_marginTop="16dp"
                     android:textSize="32sp"
                     android:textAlignment="center"
-                    android:text="@{viewModel.latestSuggestion.activity}" />
+                    android:text="@{viewModel.latestSuggestion.activity}"
+                    android:fontFamily="@font/finger_paint"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/suggestion"
+                    app:layout_constraintStart_toStartOf="@id/suggestion"
+                    app:layout_constraintEnd_toEndOf="@id/suggestion"
+                    android:text="@{viewModel.latestSuggestion.link}"
+                    android:autoLink="web"
+                    android:fontFamily="@font/finger_paint"/>
 
                 <ImageView
                     android:id="@+id/favourite"

@@ -42,30 +42,25 @@ class SetNotificationViewModel(private val baseViewModel: MainViewModel) : ViewM
         val newCalendar = _calendar.value
 
         if (year != null) {
-            Log.d("WADE", "Setting year")
             newCalendar!!.set(Calendar.YEAR, year)
         }
 
         if (month != null) {
-            Log.d("WADE", "Setting month")
             newCalendar!!.set(Calendar.MONTH, month)
         }
 
 
         if (day != null) {
-            Log.d("WADE", "Setting day")
             newCalendar!!.set(Calendar.DAY_OF_MONTH, day)
         }
 
 
         if (hour != null) {
-            Log.d("WADE", "Setting hour")
             newCalendar!!.set(Calendar.HOUR_OF_DAY, hour)
         }
 
 
         if (minute != null) {
-            Log.d("WADE", "Setting minute")
             newCalendar!!.set(Calendar.MINUTE, minute)
         }
 
@@ -74,21 +69,17 @@ class SetNotificationViewModel(private val baseViewModel: MainViewModel) : ViewM
 
     }
 
-    fun scheduleNotification(context: Context, suggestion: Suggestion){
+    fun scheduleNotification(context: Context, suggestion: Suggestion): Boolean {
 
-        Log.d("SN(viewmodel)", "Method hit. suggestion: ${suggestion.activity}")
-        Log.d("SN(viewmodel)", "context variable: $context")
-        Log.d("SN(viewmodel)", "suggestion variable: ${suggestion.activity}")
-
-
-        if(Calendar.getInstance().timeInMillis >= timeInMillis.value!!){
+        return if(Calendar.getInstance().timeInMillis >= timeInMillis.value!!){
             baseViewModel.message.value = "Invalid time and date selected"
+            false
         } else {
             with(context){
-                Log.d("SN(viewmodel)", "calling scheduleNotification method from alarm manager")
                 getAlarmManager().scheduleNotification(this, suggestion, timeInMillis.value!!)
             }
             baseViewModel.message.value = "Notification saved!"
+            true
         }
     }
 
@@ -99,6 +90,5 @@ class SetNotificationViewModel(private val baseViewModel: MainViewModel) : ViewM
     fun timePickerLaunched() {
         _launchTimePicker.value = false
     }
-
 
 }
