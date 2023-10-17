@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.example.android.boredombuddy.MainActivity
 import com.example.android.boredombuddy.data.Suggestion
 import com.example.android.boredombuddy.databinding.FragmentSetNotificationBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.Calendar
 
 class SetNotification : Fragment() {
 
@@ -32,26 +32,31 @@ class SetNotification : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val activity = (activity as MainActivity)
+
+        viewModel.resultMessage.observe(viewLifecycleOwner)  {
+            when(it){
+                ResultMessage.INVALID_TIME -> activity.postToast("Date and time must be in the future")
+                ResultMessage.SUCCESS -> activity.postToast("Reminder saved")
+                else -> {}
+            }
+        }
 
         setNotificationBinding.chooseTime.setOnClickListener {
             DatePickerFragment().show(childFragmentManager, DatePickerFragment.TAG)
         }
 
         viewModel.launchTimePicker.observe(viewLifecycleOwner) {
-            if(it){
+            if (it) {
                 TimePickerFragment().show(childFragmentManager, TimePickerFragment.TAG)
                 viewModel.timePickerLaunched()
             }
         }
 
         setNotificationBinding.setNotification.setOnClickListener {
-            if(Calendar.getInstance().timeInMillis >= viewModel.timeInMillis.value!!){
-                viewModel.postToast("Invalid time and date selected")
-            } else {
-                viewModel.scheduleNotification(requireContext().applicationContext, suggestion)
-                viewModel.postToast("Notification saved!")
-                findNavController().popBackStack()
-            }
+            viewModel.scheduleNotification(requireContext().applicationContext, suggestion)
+            findNavController().popBackStack()
+
         }
 
         setNotificationBinding.closeButton.setOnClickListener {

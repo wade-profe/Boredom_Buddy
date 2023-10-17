@@ -17,6 +17,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.android.boredombuddy.BuildConfig
+import com.example.android.boredombuddy.MainActivity
 import com.example.android.boredombuddy.R
 import com.example.android.boredombuddy.databinding.FragmentFavouritesBinding
 import com.example.android.boredombuddy.utils.getAlarmManager
@@ -35,7 +36,7 @@ class FavouritesFragment : Fragment() {
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
             if (isGranted) {
-                viewModel.postToast(getString(R.string.permission_granted))
+                (requireActivity() as MainActivity).postToast(getString(R.string.permission_granted))
             } else {
                 if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
                     val builder = AlertDialog.Builder(requireContext())
@@ -45,7 +46,7 @@ class FavouritesFragment : Fragment() {
                             getString(R.string.accept)
                         )
                         { dialog, _ ->
-                            viewModel.postToast(getString(R.string.permission_dialog_success_toast))
+                            (requireActivity() as MainActivity).postToast(getString(R.string.permission_dialog_success_toast))
                             dialog.dismiss()
                         }
                         .setNegativeButton(

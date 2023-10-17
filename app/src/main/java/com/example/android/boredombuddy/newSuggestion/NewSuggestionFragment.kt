@@ -1,7 +1,6 @@
 package com.example.android.boredombuddy.newSuggestion
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.example.android.boredombuddy.MainActivity
 import com.example.android.boredombuddy.databinding.NewSuggestionBinding
+import com.example.android.boredombuddy.utils.InternetMonitor
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -38,7 +39,6 @@ class NewSuggestionFragment : Fragment() {
         }
     private var newSuggestionLoading = false
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -53,6 +53,22 @@ class NewSuggestionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val activity = (activity as MainActivity)
+
+        InternetMonitor(requireContext()).observe(viewLifecycleOwner) {
+            viewModel.isConnected = it
+        }
+
+        viewModel.resultMessage.observe(viewLifecycleOwner) {
+            when(it){
+                ResultMessage.NEW_SUGGESTION_FAILURE -> {
+                    activity.postToast("Error retrieving image")
+                }
+                ResultMessage.GET_IMAGE_FAILURE -> activity.postToast("Error retrieving image")
+                ResultMessage.CONNECTION_FAILURE -> activity.postToast("Internet connection required")
+                else -> {}
+            }
+        }
 
         viewModel.isLoading.observe(viewLifecycleOwner) {
             newSuggestionLoading = it
@@ -95,6 +111,7 @@ class NewSuggestionFragment : Fragment() {
             ) {
             }
         })
+
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {

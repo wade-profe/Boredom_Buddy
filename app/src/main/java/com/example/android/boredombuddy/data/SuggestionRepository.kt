@@ -62,7 +62,7 @@ class SuggestionRepository(
     suspend fun getSuggestionImage(id: Long, query: String): Result<String> {
         return try {
             withContext(dispatcher) {
-                val result = PexelAPI.callApi.getImage(query)
+                val result = PexelAPI.callApi.getImage(query = query)
                 if (result.isSuccessful) {
                     val url = result.body()?.provideImageUrl()
                     suggestionDao.setSuggestionImageUrl(id, url!!)

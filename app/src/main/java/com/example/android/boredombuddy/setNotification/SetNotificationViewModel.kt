@@ -1,22 +1,22 @@
 package com.example.android.boredombuddy.setNotification
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
-import com.example.android.boredombuddy.MainApplication
-import com.example.android.boredombuddy.MainViewModel
 import com.example.android.boredombuddy.data.Suggestion
 import com.example.android.boredombuddy.utils.getAlarmManager
 import com.example.android.boredombuddy.utils.scheduleNotification
-import org.koin.dsl.koinApplication
-import java.time.Instant
 import java.util.Calendar
-import java.util.Date
 
-class SetNotificationViewModel(private val baseViewModel: MainViewModel) : ViewModel() {
+enum class ResultMessage{
+    DEFAULT,
+    INVALID_TIME,
+    SUCCESS
+}
+
+class SetNotificationViewModel : ViewModel() {
 
     private val _calendar = MutableLiveData(Calendar.getInstance())
     val calendar: LiveData<Calendar>
@@ -30,6 +30,10 @@ class SetNotificationViewModel(private val baseViewModel: MainViewModel) : ViewM
     val timeInMillis: LiveData<Long> = _calendar.map {
         it.timeInMillis
     }
+
+    private var _resultMessage = MutableLiveData(ResultMessage.DEFAULT)
+    val resultMessage: LiveData<ResultMessage>
+        get() = _resultMessage
 
     fun updateCalendar(
         year: Int? = null,
@@ -64,15 +68,20 @@ class SetNotificationViewModel(private val baseViewModel: MainViewModel) : ViewM
             newCalendar!!.set(Calendar.MINUTE, minute)
         }
 
-
         _calendar.value = newCalendar
-
     }
 
-    fun scheduleNotification(context: Context, suggestion: Suggestion) =
-        with(context) {
-            getAlarmManager().scheduleNotification(this, suggestion, timeInMillis.value!!)
+    fun scheduleNotification(context: Context, suggestion: Suggestion) {
+        if(Calendar.getInstance().timeInMillis >= timeInMillis.value!!){
+            _resultMessage.value = ResultMessage.INVALID_TIME
+        } else {
+            with(context) {
+                getAlarmManager().scheduleNotification(this, suggestion, timeInMillis.value!!)
+                _resultMessage.value = ResultMessage.SUCCESS
+            }
         }
+
+    }
 
     fun launchTimePicker() {
         _launchTimePicker.value = true
@@ -80,10 +89,6 @@ class SetNotificationViewModel(private val baseViewModel: MainViewModel) : ViewM
 
     fun timePickerLaunched() {
         _launchTimePicker.value = false
-    }
-
-    fun postToast(message: String) {
-        baseViewModel.message.value = message
     }
 
 }

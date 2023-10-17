@@ -8,11 +8,10 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
-import retrofit2.http.Headers
+import retrofit2.http.Header
 import retrofit2.http.Query
 
 
-const val API_KEY = BuildConfig.PEXEL_API_KEY
 const val BASE_URL_PEXEL = "https://api.pexels.com/v1/"
 
 data class TotalResult(
@@ -50,9 +49,9 @@ fun TotalResult.provideImageUrl(): String{
 }
 
 interface ImageSearch{
-    @Headers("Authorization: $API_KEY")
     @GET("search?per_page=1")
-    suspend fun getImage(@Query("query") query: String): Response<TotalResult>
+    suspend fun getImage(@Header("Authorization") header: String = BuildConfig.PEXEL_API_KEY,
+                         @Query("query") query: String): Response<TotalResult>
 }
 
 

@@ -20,7 +20,6 @@ import org.koin.dsl.module
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
-import org.koin.core.scope.get
 
 private const val DATA_STORE_NAME = "Preferences"
 
@@ -57,24 +56,17 @@ class MainApplication : Application() {
 
             viewModel {
                 NewSuggestionViewModel(
-                    get() as SuggestionRepository,
-                    get() as MainViewModel
+                    get() as SuggestionRepository
                 )
             }
 
             viewModel{
                 FavouritesViewModel(
-                    get() as SuggestionRepository,
-                    get() as MainViewModel
-                )
+                    get() as SuggestionRepository)
             }
 
             viewModel{
-                SetNotificationViewModel(get() as MainViewModel)
-            }
-
-            single{
-                return@single MainViewModel()
+                SetNotificationViewModel()
             }
 
             single { SuggestionRepository(get() as SuggestionDao) }
