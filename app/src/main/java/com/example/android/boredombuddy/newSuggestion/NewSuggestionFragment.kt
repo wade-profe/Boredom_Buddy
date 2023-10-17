@@ -14,6 +14,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.android.boredombuddy.MainActivity
+import com.example.android.boredombuddy.R
 import com.example.android.boredombuddy.databinding.NewSuggestionBinding
 import com.example.android.boredombuddy.utils.InternetMonitor
 import kotlinx.coroutines.flow.Flow
@@ -62,10 +63,10 @@ class NewSuggestionFragment : Fragment() {
         viewModel.resultMessage.observe(viewLifecycleOwner) {
             when(it){
                 ResultMessage.NEW_SUGGESTION_FAILURE -> {
-                    activity.postToast("Error retrieving image")
+                    activity.postToast(getString(R.string.error_retrieving_suggestion))
                 }
-                ResultMessage.GET_IMAGE_FAILURE -> activity.postToast("Error retrieving image")
-                ResultMessage.CONNECTION_FAILURE -> activity.postToast("Internet connection required")
+                ResultMessage.GET_IMAGE_FAILURE -> activity.postToast(getString(R.string.error_retrieving_image))
+                ResultMessage.CONNECTION_FAILURE -> activity.postToast(getString(R.string.internet_connection_required))
                 else -> {}
             }
         }
