@@ -35,7 +35,6 @@ class ViewPagerFragment : Fragment() {
 
         TabLayoutMediator(tabLayout, viewPager) { _, _ -> }.attach()
 
-        // Inflate the layout for this fragment
         return binding.root
     }
 }

@@ -44,9 +44,6 @@ interface SuggestionDao{
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insertSuggestion(suggestion: DatabaseSuggestion)
 
-    @Query("SELECT * FROM DatabaseSuggestion WHERE id = :id")
-    suspend fun findSuggestionById(id: Long): DatabaseSuggestion
-
     @Query("DELETE FROM DatabaseSuggestion WHERE id = :id")
     suspend fun deleteSuggestion(id: Long)
 
@@ -60,7 +57,7 @@ interface SuggestionDao{
     suspend fun deleteMostRecent()
 
     @Query("UPDATE DatabaseSuggestion SET imageUrl = :url WHERE id = :id")
-    suspend fun setSugestionImageUrl(id: Long, url: String)
+    suspend fun setSuggestionImageUrl(id: Long, url: String)
 
     @Query("SELECT * FROM DatabaseSuggestion WHERE mostRecent = 1")
     fun getLatestSuggestion(): LiveData<DatabaseSuggestion?>

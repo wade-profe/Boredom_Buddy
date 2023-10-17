@@ -45,14 +45,10 @@ class NewSuggestionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         newSuggestionBinding = NewSuggestionBinding.inflate(inflater, container, false)
-
         newSuggestionBinding.viewModel = viewModel
-
         newSuggestionBinding.lifecycleOwner = this
 
         return newSuggestionBinding.root
-
-        // TODO add animation
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

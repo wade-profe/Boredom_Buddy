@@ -69,19 +69,10 @@ class SetNotificationViewModel(private val baseViewModel: MainViewModel) : ViewM
 
     }
 
-    fun scheduleNotification(context: Context, suggestion: Suggestion): Boolean {
-
-        return if(Calendar.getInstance().timeInMillis >= timeInMillis.value!!){
-            baseViewModel.message.value = "Invalid time and date selected"
-            false
-        } else {
-            with(context){
-                getAlarmManager().scheduleNotification(this, suggestion, timeInMillis.value!!)
-            }
-            baseViewModel.message.value = "Notification saved!"
-            true
+    fun scheduleNotification(context: Context, suggestion: Suggestion) =
+        with(context) {
+            getAlarmManager().scheduleNotification(this, suggestion, timeInMillis.value!!)
         }
-    }
 
     fun launchTimePicker() {
         _launchTimePicker.value = true
@@ -89,6 +80,10 @@ class SetNotificationViewModel(private val baseViewModel: MainViewModel) : ViewM
 
     fun timePickerLaunched() {
         _launchTimePicker.value = false
+    }
+
+    fun postToast(message: String) {
+        baseViewModel.message.value = message
     }
 
 }

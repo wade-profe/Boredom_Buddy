@@ -65,7 +65,7 @@ class SuggestionRepository(
                 val result = PexelAPI.callApi.getImage(query)
                 if (result.isSuccessful) {
                     val url = result.body()?.provideImageUrl()
-                    suggestionDao.setSugestionImageUrl(id, url!!)
+                    suggestionDao.setSuggestionImageUrl(id, url!!)
                     Result.Success(url)
                 } else {
                     Log.e(TAG, "${result.code()}: ${result.errorBody()}")

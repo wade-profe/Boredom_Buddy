@@ -31,10 +31,5 @@ class DatePickerFragment: DialogFragment(), DatePickerDialog.OnDateSetListener {
             day = dayOfMonth
         )
         viewModel.launchTimePicker()
-
-
-        // TODO create field in SetNotification fragment that displays the current/selected date and time by observing viewmodel
     }
-
-
 }

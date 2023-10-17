@@ -32,11 +32,15 @@ android {
 
     buildTypes {
         release {
+            buildConfigField("String", "PEXEL_API_KEY", "\"ZymswxEUNKoVgyrkHfISPl0rmbQdM0WQ4TZ5nYct1ZyFb76gsbolqwWm\"")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        debug{
+            buildConfigField("String", "PEXEL_API_KEY", "\"ZymswxEUNKoVgyrkHfISPl0rmbQdM0WQ4TZ5nYct1ZyFb76gsbolqwWm\"")
         }
     }
 

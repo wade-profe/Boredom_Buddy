@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.android.boredombuddy.data.Suggestion
 import com.example.android.boredombuddy.databinding.FragmentSetNotificationBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.Calendar
 
 class SetNotification : Fragment() {
 
@@ -25,8 +26,6 @@ class SetNotification : Fragment() {
         setNotificationBinding.viewModel = viewModel
         suggestion = SetNotificationArgs.fromBundle(requireArguments()).suggestion
         setNotificationBinding.suggestion = suggestion
-
-        // TODO Fix set reminder views positioning
 
         return setNotificationBinding.root
     }
@@ -46,7 +45,11 @@ class SetNotification : Fragment() {
         }
 
         setNotificationBinding.setNotification.setOnClickListener {
-            if(viewModel.scheduleNotification(requireContext().applicationContext, suggestion)){
+            if(Calendar.getInstance().timeInMillis >= viewModel.timeInMillis.value!!){
+                viewModel.postToast("Invalid time and date selected")
+            } else {
+                viewModel.scheduleNotification(requireContext().applicationContext, suggestion)
+                viewModel.postToast("Notification saved!")
                 findNavController().popBackStack()
             }
         }

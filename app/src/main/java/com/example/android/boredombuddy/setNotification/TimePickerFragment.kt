@@ -31,8 +31,4 @@ class TimePickerFragment : DialogFragment(), TimePickerDialog.OnTimeSetListener 
             minute = minute
         )
     }
-
-
-
-
 }

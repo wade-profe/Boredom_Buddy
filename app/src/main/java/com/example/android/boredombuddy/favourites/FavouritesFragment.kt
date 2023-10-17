@@ -11,7 +11,6 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.os.bundleOf
@@ -36,29 +35,21 @@ class FavouritesFragment : Fragment() {
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
             if (isGranted) {
-                Toast.makeText(
-                    requireContext().applicationContext,
-                    "Permission granted",
-                    Toast.LENGTH_SHORT
-                ).show()
+                viewModel.postToast(getString(R.string.permission_granted))
             } else {
                 if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
                     val builder = AlertDialog.Builder(requireContext())
-                    builder.setTitle("Notification permission required")
-                        .setMessage("In order to be reminded about this suggestion, we need permission to send you notifications")
+                    builder.setTitle(getString(R.string.permission_dialog_title))
+                        .setMessage(getString(R.string.permission_dialog_message))
                         .setPositiveButton(
-                            "Accept"
+                            getString(R.string.accept)
                         )
                         { dialog, _ ->
-                            Toast.makeText(
-                                requireContext().applicationContext,
-                                "Thank you. Please select the notification icon again",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            viewModel.postToast(getString(R.string.permission_dialog_success_toast))
                             dialog.dismiss()
                         }
                         .setNegativeButton(
-                            "Decline"
+                            getString(R.string.decline)
                         ) { dialog, _ ->
                             raisePermissionDeniedSnackBar()
                             dialog.dismiss()
@@ -112,10 +103,10 @@ class FavouritesFragment : Fragment() {
     private fun raisePermissionDeniedSnackBar() {
         Snackbar.make(
             requireView(),
-            "Notification permission is required to set reminders",
+            getString(R.string.permission_snackbar_message),
             Snackbar.LENGTH_INDEFINITE
         )
-            .setAction("Settings") {
+            .setAction(getString(R.string.settings)) {
                 startActivity(Intent().apply {
                     action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
                     data =

@@ -25,4 +25,8 @@ class FavouritesViewModel(private val repository: SuggestionRepository,
             repository.deleteSuggestionFromFavourites(id)
         }
     }
+
+    fun postToast(message: String){
+        baseViewModel.message.value = message
+    }
 }

@@ -39,7 +39,6 @@ class NewSuggestionViewModel(private val repository: SuggestionRepository,
         viewModelScope.launch {
             when(repository.getSuggestionImage(id, query)){
                 is Result.Error -> baseViewModel.message.postValue("Error retrieving image")
-
                 else -> {}
             }
             _isLoading.postValue(false)

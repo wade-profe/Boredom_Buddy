@@ -106,7 +106,6 @@
                 android:src="@drawable/share_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/suggestion_link"
-
                 app:layout_constraintEnd_toStartOf="@+id/notification_icon"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 android:padding="2dp"/>

@@ -6,4 +6,12 @@
     <string name="notification_channel_name">Suggestion Reminders</string>
     <string name="selected_activity">Selected activity:\n %1$s</string>
     <string name="shared_suggestion">Hey! I just found this great idea on the app Boredom Buddy:\n%1$s</string>
+    <string name="permission_dialog_title">Notification permission required</string>
+    <string name="permission_dialog_message">In order to be reminded about this suggestion, we need permission to send you notifications</string>
+    <string name="accept">Accept</string>
+    <string name="permission_dialog_success_toast">Thank you. Please select the notification icon again</string>
+    <string name="decline">Decline</string>
+    <string name="permission_granted">Permission granted</string>
+    <string name="permission_snackbar_message">Notification permission is required to set reminders</string>
+    <string name="settings">Settings</string>
 </resources>

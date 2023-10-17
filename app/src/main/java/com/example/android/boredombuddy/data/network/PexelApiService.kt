@@ -1,5 +1,6 @@
 package com.example.android.boredombuddy.data.network
 
+import com.example.android.boredombuddy.BuildConfig
 import com.squareup.moshi.Json
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -10,7 +11,8 @@ import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
 
-const val API_KEY = "ZymswxEUNKoVgyrkHfISPl0rmbQdM0WQ4TZ5nYct1ZyFb76gsbolqwWm"
+
+const val API_KEY = BuildConfig.PEXEL_API_KEY
 const val BASE_URL_PEXEL = "https://api.pexels.com/v1/"
 
 data class TotalResult(
