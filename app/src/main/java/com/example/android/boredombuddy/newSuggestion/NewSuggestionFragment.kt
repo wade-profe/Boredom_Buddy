@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -35,6 +36,7 @@ class NewSuggestionFragment : Fragment() {
             val firstTime = preferences[PreferencesKeys.FIRST_TIME] ?: true
             FirstTime(firstTime)
         }
+    private var newSuggestionLoading = false
 
 
     override fun onCreateView(
@@ -56,23 +58,60 @@ class NewSuggestionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            newSuggestionLoading = it
+            if (newSuggestionLoading) {
+                newSuggestionBinding.motionLayout.progress = 0f
+                newSuggestionBinding.motionLayout.transitionToEnd()
+            }
+        }
+
+        newSuggestionBinding.motionLayout.setTransitionListener(object :
+            MotionLayout.TransitionListener {
+
+            override fun onTransitionStarted(
+                motionLayout: MotionLayout?,
+                startId: Int,
+                endId: Int
+            ) {
+            }
+
+            override fun onTransitionChange(
+                motionLayout: MotionLayout?,
+                startId: Int,
+                endId: Int,
+                progress: Float
+            ) {
+            }
+
+            override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
+                if (newSuggestionLoading) {
+                    motionLayout?.progress = 0f
+                    motionLayout?.transitionToEnd()
+                }
+            }
+
+            override fun onTransitionTrigger(
+                motionLayout: MotionLayout?,
+                triggerId: Int,
+                positive: Boolean,
+                progress: Float
+            ) {
+            }
+        })
+
         viewLifecycleOwner.lifecycleScope.launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED){
-                    userPreferencesFlow.collect()
-                     { firstTime ->
-                        if (firstTime.firstTime) {
-                            viewModel.getNewSuggestion()
-                            datastore.edit {
-                                it[PreferencesKeys.FIRST_TIME] = false
-                            }
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                userPreferencesFlow.collect()
+                { firstTime ->
+                    if (firstTime.firstTime) {
+                        viewModel.getNewSuggestion()
+                        datastore.edit {
+                            it[PreferencesKeys.FIRST_TIME] = false
                         }
                     }
                 }
+            }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d("WADE", "${NewSuggestionFragment::class.java.simpleName} onResume")
     }
 }

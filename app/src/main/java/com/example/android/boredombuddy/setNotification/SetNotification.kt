@@ -26,13 +26,6 @@ class SetNotification : Fragment() {
         suggestion = SetNotificationArgs.fromBundle(requireArguments()).suggestion
         setNotificationBinding.suggestion = suggestion
 
-        viewModel.launchTimePicker.observe(viewLifecycleOwner) {
-            if(it){
-                TimePickerFragment().show(childFragmentManager, TimePickerFragment.TAG)
-                viewModel.timePickerLaunched()
-            }
-        }
-
         // TODO Fix set reminder views positioning
 
         return setNotificationBinding.root
@@ -45,10 +38,21 @@ class SetNotification : Fragment() {
             DatePickerFragment().show(childFragmentManager, DatePickerFragment.TAG)
         }
 
+        viewModel.launchTimePicker.observe(viewLifecycleOwner) {
+            if(it){
+                TimePickerFragment().show(childFragmentManager, TimePickerFragment.TAG)
+                viewModel.timePickerLaunched()
+            }
+        }
+
         setNotificationBinding.setNotification.setOnClickListener {
             if(viewModel.scheduleNotification(requireContext().applicationContext, suggestion)){
                 findNavController().popBackStack()
             }
+        }
+
+        setNotificationBinding.closeButton.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 }

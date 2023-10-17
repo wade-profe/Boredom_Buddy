@@ -9,10 +9,12 @@
             type="com.example.android.boredombuddy.newSuggestion.NewSuggestionViewModel" />
     </data>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.constraintlayout.motion.widget.MotionLayout
+                android:id="@+id/motion_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="16dp">
+                android:padding="16dp"
+                app:layoutDescription="@xml/new_suggestion_scene">
 
                 <TextView
                     android:id="@+id/new_suggestion_header"
@@ -40,31 +42,28 @@
                     android:id="@+id/reload_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="@id/suggestion_image"
-                    app:layout_constraintEnd_toEndOf="@id/suggestion_image"
                     android:src="@drawable/refresh_icon"
-                    android:onClick="@{() -> viewModel.getNewSuggestion()}" />
+                    android:onClick="@{() -> viewModel.getNewSuggestion()}"/>
 
                 <TextView
                     android:id="@+id/suggestion"
                     tools:text="Prepare a 72-hour kit"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@id/suggestion_image"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="16dp"
-                    android:textSize="32sp"
-                    android:textAlignment="center"
+                    android:textSize="28sp"
                     android:text="@{viewModel.latestSuggestion.activity}"
                     android:fontFamily="@font/finger_paint"/>
 
                 <TextView
+                    android:id="@+id/link"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@id/suggestion"
                     app:layout_constraintStart_toStartOf="@id/suggestion"
-                    app:layout_constraintEnd_toEndOf="@id/suggestion"
                     android:text="@{viewModel.latestSuggestion.link}"
                     android:autoLink="web"
                     android:fontFamily="@font/finger_paint"/>
@@ -82,17 +81,5 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
 
-                <ProgressBar
-                    android:id="@+id/progress_bar"
-                    showLoading="@{viewModel.isLoading()}"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:indeterminate="true"
-                    android:indeterminateTintMode="src_atop"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>

@@ -18,6 +18,14 @@
         tools:context=".setNotification.SetNotification"
         android:background="@drawable/set_notification_background">
 
+        <ImageView
+            android:id="@+id/close_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/close_foreground"/>
+
         <TextView
             android:id="@+id/set_reminder_header"
             android:layout_width="wrap_content"
@@ -36,28 +44,15 @@
             android:text="@{@string/selected_activity(suggestion.activity)}"
             tools:text="Plan a trip with friends"
             app:layout_constraintTop_toBottomOf="@id/set_reminder_header"
-            app:layout_constraintBottom_toTopOf="@id/selected_date"
+            app:layout_constraintBottom_toTopOf="@id/choose_time"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:textAlignment="center"
-            android:textSize="32sp"
+            android:textSize="28sp"
             android:textColor="@color/design_default_color_on_primary"
             android:fontFamily="@font/finger_paint"
             android:layout_margin="8dp"
             app:layout_constraintVertical_bias="1"/>
-
-        <TextView
-            android:id="@+id/selected_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="123213542435"
-            app:layout_constraintBottom_toTopOf="@id/choose_time"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:timeText="@{viewModel.timeInMillis}"
-            android:textColor="@color/design_default_color_on_primary"
-            android:fontFamily="@font/finger_paint"
-            android:layout_margin="8dp"/>
 
         <Button
             android:id="@+id/choose_time"
@@ -72,6 +67,19 @@
             android:fontFamily="@font/finger_paint"
             android:layout_margin="8dp"/>
 
+        <TextView
+            android:id="@+id/selected_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="24/10/2023 15:15"
+            app:layout_constraintTop_toBottomOf="@id/choose_time"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:timeText="@{viewModel.timeInMillis}"
+            android:textColor="@color/design_default_color_on_primary"
+            android:fontFamily="@font/finger_paint"
+            android:layout_margin="8dp"/>
+
         <Button
             android:id="@+id/set_notification"
             android:layout_width="wrap_content"
@@ -79,8 +87,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_margin="8dp"
+            android:backgroundTint="@color/md_theme_dark_onTertiaryContainer"
             android:text="SET NOTIFICATION"
-            android:textColor="@color/design_default_color_on_primary"
+            android:textColor="@color/seed"
             android:fontFamily="@font/finger_paint"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

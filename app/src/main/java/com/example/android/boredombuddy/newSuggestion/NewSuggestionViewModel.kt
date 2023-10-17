@@ -30,7 +30,6 @@ class NewSuggestionViewModel(private val repository: SuggestionRepository,
                 else -> {
                     val successfulResult = result as Result.Success
                     getSuggestionImage(successfulResult.data.id, successfulResult.data.activity)
-                    _isLoading.postValue(false)
                 }
             }
         }
@@ -40,8 +39,10 @@ class NewSuggestionViewModel(private val repository: SuggestionRepository,
         viewModelScope.launch {
             when(repository.getSuggestionImage(id, query)){
                 is Result.Error -> baseViewModel.message.postValue("Error retrieving image")
+
                 else -> {}
             }
+            _isLoading.postValue(false)
         }
     }
 
