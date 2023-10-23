@@ -50,6 +50,9 @@ interface SuggestionDao{
     @Query("SELECT * FROM DatabaseSuggestion WHERE mostRecent = 0")
     fun getFavourites(): LiveData<List<DatabaseSuggestion>?>
 
+    @Query("DELETE FROM DatabaseSuggestion WHERE mostRecent = 0")
+    suspend fun deleteFavourites()
+
     @Query("UPDATE DatabaseSuggestion SET mostRecent = 0 WHERE mostRecent = 1")
     suspend fun saveSuggestion()
 

@@ -22,4 +22,10 @@ class FavouritesViewModel(private val repository: SuggestionRepository)
             repository.deleteSuggestionFromFavourites(id)
         }
     }
+
+    fun deleteAllFavourites(){
+        viewModelScope.launch {
+            repository.deleteAllFavourites()
+        }
+    }
 }

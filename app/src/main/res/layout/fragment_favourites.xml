@@ -26,6 +26,20 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     style="@style/page_title"/>
 
+                <ImageView
+                    android:id="@+id/delete_all_icon"
+                    android:background="@drawable/circle"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:tooltipText="Delete all"
+                    android:src="@drawable/delete_icon"
+                    app:setVisibility="@{!viewModel.showNoData}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:onClick="@{() -> viewModel.deleteAllFavourites()}"
+                    android:elevation="15dp"
+                    />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/favourites_recycler_view"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

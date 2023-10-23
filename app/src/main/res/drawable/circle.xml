@@ -7,7 +7,7 @@
 
     <stroke
         android:width="1dp"
-        android:color="@color/design_default_color_primary"/>
+        android:color="@color/md_theme_light_inversePrimary"/>
 
     <size
         android:width="120dp"

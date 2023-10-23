@@ -89,4 +89,10 @@ class SuggestionRepository(
             suggestionDao.deleteSuggestion(id)
         }
     }
+
+    suspend fun deleteAllFavourites(){
+        withContext(dispatcher){
+            suggestionDao.deleteFavourites()
+        }
+    }
 }
