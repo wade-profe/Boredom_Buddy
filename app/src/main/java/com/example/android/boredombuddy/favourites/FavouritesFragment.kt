@@ -121,36 +121,44 @@ class FavouritesFragment : Fragment() {
 
             // todo figure out a way to avoid removing all views
             // todo add selected filters to repo and return favourites based on filters selected/not selected
-            favouritesBinding.categories.removeAllViews()
-            categories?.let {
-                it.forEach { category ->
-                    val chip = Chip(requireContext())
-                    chip.text = category
-                    chip.isCheckable = true
-                    chip.isSelected = false
-//                    chip.setOnClickListener {
-//                        if(it.isSelected)
-//                    }
-                    favouritesBinding.categories.addView(chip)
+//            favouritesBinding.categories.removeAllViews()
+            categories?.let { categories ->
+                val chips = favouritesBinding.categories.allViews.filterIsInstance<Chip>()
+                categories.forEach { category ->
+                    if (!chips.any { it.text == category }) {
+                        val chip = Chip(requireContext())
+                        chip.text = category
+                        chip.isCheckable = true
+                        chip.isSelected = false
+                        chip.setOnCheckedChangeListener { _, isChecked ->
+                            if (isChecked) {
+                                viewModel.addFilterValue(category)
+                            } else {
+                                viewModel.removeFilterValue(category)
+                            }
+                        }
+                        favouritesBinding.categories.addView(chip)
+                    }
                 }
             }
         }
     }
 
-    private fun raisePermissionDeniedSnackBar() {
-        Snackbar.make(
-            requireView(),
-            getString(R.string.permission_snackbar_message),
-            Snackbar.LENGTH_INDEFINITE
-        )
-            .setAction(getString(R.string.settings)) {
-                startActivity(Intent().apply {
-                    action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                    data =
-                        Uri.fromParts("package", BuildConfig.APPLICATION_ID, null)
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                })
-            }.show()
-    }
+
+private fun raisePermissionDeniedSnackBar() {
+    Snackbar.make(
+        requireView(),
+        getString(R.string.permission_snackbar_message),
+        Snackbar.LENGTH_INDEFINITE
+    )
+        .setAction(getString(R.string.settings)) {
+            startActivity(Intent().apply {
+                action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                data =
+                    Uri.fromParts("package", BuildConfig.APPLICATION_ID, null)
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            })
+        }.show()
+}
 
 }

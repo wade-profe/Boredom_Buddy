@@ -3,6 +3,7 @@ package com.example.android.boredombuddy.data
 import android.database.sqlite.SQLiteConstraintException
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.example.android.boredombuddy.data.local.DatabaseSuggestion
 import com.example.android.boredombuddy.data.local.SuggestionDao
@@ -35,6 +36,7 @@ class SuggestionRepository(
     }
 
     val uniqueFavouritesCategories: LiveData<List<String>?> = suggestionDao.getDistinctCategories()
+    val selectedFilters = MutableLiveData<List<String>>(listOf())
 
     suspend fun getNewSuggestion(): Result<DatabaseSuggestion> {
         return try {
@@ -96,5 +98,19 @@ class SuggestionRepository(
         withContext(dispatcher){
             suggestionDao.deleteFavourites()
         }
+    }
+
+    fun getFilteredList(): LiveData<List<Suggestion>?>{
+        return suggestionDao.getFilteredList(selectedFilters.value!!).map {
+            it?.toDomainModel()
+        }
+    }
+
+    fun addFilterValue(filter: String){
+        selectedFilters.value = selectedFilters.value?.plus(filter)
+    }
+
+    fun removeFilterValue(filter: String){
+        selectedFilters.value = selectedFilters.value?.minus(filter)
     }
 }
