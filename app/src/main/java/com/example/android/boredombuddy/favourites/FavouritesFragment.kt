@@ -25,6 +25,7 @@ import com.example.android.boredombuddy.databinding.FragmentFavouritesBinding
 import com.example.android.boredombuddy.utils.getAlarmManager
 import com.example.android.boredombuddy.utils.makePendingIntent
 import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.inject
 
@@ -78,6 +79,7 @@ class FavouritesFragment : Fragment() {
                     makePendingIntent(requireContext().applicationContext, suggestion)
                 requireContext().getAlarmManager().cancel(pendingIntent)
                 viewModel.deleteSuggestion(suggestion.id)
+                viewModel.refreshSelectedFilters()
             },
             { suggestion ->
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
@@ -118,47 +120,59 @@ class FavouritesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.uniqueFavouritesCategories.observe(viewLifecycleOwner) { categories ->
-
-            // todo figure out a way to avoid removing all views
-            // todo add selected filters to repo and return favourites based on filters selected/not selected
-//            favouritesBinding.categories.removeAllViews()
             categories?.let { categories ->
-                val chips = favouritesBinding.categories.allViews.filterIsInstance<Chip>()
-                categories.forEach { category ->
-                    if (!chips.any { it.text == category }) {
-                        val chip = Chip(requireContext())
-                        chip.text = category
-                        chip.isCheckable = true
-                        chip.isSelected = false
-                        chip.setOnCheckedChangeListener { _, isChecked ->
-                            if (isChecked) {
-                                viewModel.addFilterValue(category)
-                            } else {
-                                viewModel.removeFilterValue(category)
-                            }
-                        }
-                        favouritesBinding.categories.addView(chip)
-                    }
+                favouritesBinding.categories.apply {
+                    removeOutdatedCategories(categories)
+                    addNewCategories(categories)
                 }
             }
         }
     }
 
+    private fun raisePermissionDeniedSnackBar() {
+        Snackbar.make(
+            requireView(),
+            getString(R.string.permission_snackbar_message),
+            Snackbar.LENGTH_INDEFINITE
+        )
+            .setAction(getString(R.string.settings)) {
+                startActivity(Intent().apply {
+                    action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                    data =
+                        Uri.fromParts("package", BuildConfig.APPLICATION_ID, null)
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                })
+            }.show()
+    }
 
-private fun raisePermissionDeniedSnackBar() {
-    Snackbar.make(
-        requireView(),
-        getString(R.string.permission_snackbar_message),
-        Snackbar.LENGTH_INDEFINITE
-    )
-        .setAction(getString(R.string.settings)) {
-            startActivity(Intent().apply {
-                action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                data =
-                    Uri.fromParts("package", BuildConfig.APPLICATION_ID, null)
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            })
-        }.show()
-}
+    private fun ChipGroup.removeOutdatedCategories(existingCategories: List<String>) {
+        val chips = this.allViews.filterIsInstance<Chip>()
+        chips.forEach {
+            if (!existingCategories.contains(it.text)) {
+                this.removeView(it)
+                viewModel.refreshSelectedFilters()
+            }
+        }
+    }
 
+    private fun ChipGroup.addNewCategories(availableCategories: List<String>) {
+        val existingChips = this.allViews.filterIsInstance<Chip>()
+        availableCategories.forEach { category ->
+            if (!existingChips.any { it.text == category }) {
+                val chip = Chip(requireContext())
+                chip.text = category
+                chip.isCheckable = true
+                chip.isSelected = false
+                chip.setOnCheckedChangeListener { _, isChecked ->
+                    if (isChecked) {
+                        viewModel.addFilterValue(category)
+                    } else {
+                        viewModel.removeFilterValue(category)
+                    }
+                }
+                this.addView(chip)
+            }
+        }
+
+    }
 }

@@ -12,7 +12,6 @@ import kotlinx.coroutines.launch
 class FavouritesViewModel(private val repository: SuggestionRepository)
     : ViewModel() {
 
-//    val favouritesList: LiveData<List<Suggestion>?> = repository.favouritesList
     val favouritesList: LiveData<List<Suggestion>?> = repository.selectedFilters.switchMap {
         if(it.isNullOrEmpty()){
             repository.favouritesList
@@ -43,5 +42,9 @@ class FavouritesViewModel(private val repository: SuggestionRepository)
 
     fun removeFilterValue(filter: String){
         repository.removeFilterValue(filter)
+    }
+
+    fun refreshSelectedFilters(){
+        repository.refreshFilters()
     }
 }

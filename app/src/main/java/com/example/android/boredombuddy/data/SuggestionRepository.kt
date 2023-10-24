@@ -113,4 +113,12 @@ class SuggestionRepository(
     fun removeFilterValue(filter: String){
         selectedFilters.value = selectedFilters.value?.minus(filter)
     }
+
+    fun refreshFilters(){
+        selectedFilters.value?.forEach {
+            if(uniqueFavouritesCategories.value?.contains(it) == false){
+                selectedFilters.value = selectedFilters.value?.minus(it)
+            }
+        }
+    }
 }
