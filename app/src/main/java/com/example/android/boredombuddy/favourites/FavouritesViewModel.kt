@@ -16,6 +16,7 @@ class FavouritesViewModel(private val repository: SuggestionRepository)
     val showNoData: LiveData<Boolean> = favouritesList.switchMap {
         MutableLiveData(it.isNullOrEmpty())
     }
+    val uniqueFavouritesCategories: LiveData<List<String>?> = repository.uniqueFavouritesCategories
 
     fun deleteSuggestion(id: Long){
         viewModelScope.launch {

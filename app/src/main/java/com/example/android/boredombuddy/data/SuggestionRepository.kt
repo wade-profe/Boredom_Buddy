@@ -34,6 +34,8 @@ class SuggestionRepository(
         it?.toDomainModel()
     }
 
+    val uniqueFavouritesCategories: LiveData<List<String>?> = suggestionDao.getDistinctCategories()
+
     suspend fun getNewSuggestion(): Result<DatabaseSuggestion> {
         return try {
             withContext(dispatcher) {

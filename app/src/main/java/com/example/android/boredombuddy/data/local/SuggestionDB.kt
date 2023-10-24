@@ -50,6 +50,9 @@ interface SuggestionDao{
     @Query("SELECT * FROM DatabaseSuggestion WHERE mostRecent = 0")
     fun getFavourites(): LiveData<List<DatabaseSuggestion>?>
 
+    @Query("SELECT * FROM DatabaseSuggestion WHERE mostRecent=0 AND type IN (:selectedTypes)")
+    fun getFilteredList(selectedTypes: List<String>): LiveData<List<DatabaseSuggestion>?>
+
     @Query("DELETE FROM DatabaseSuggestion WHERE mostRecent = 0")
     suspend fun deleteFavourites()
 
@@ -65,6 +68,8 @@ interface SuggestionDao{
     @Query("SELECT * FROM DatabaseSuggestion WHERE mostRecent = 1")
     fun getLatestSuggestion(): LiveData<DatabaseSuggestion?>
 
+    @Query("SELECT DISTINCT(type) FROM DatabaseSuggestion WHERE mostRecent=0")
+    fun getDistinctCategories(): LiveData<List<String>?>
 }
 
 @Database(entities = [DatabaseSuggestion::class],  version = 1)
