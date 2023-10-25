@@ -31,10 +31,8 @@ fun NetworkSuggestion.toDatabaseModel(): DatabaseSuggestion{
 }
 
 interface SuggestionRequest {
-
     @GET(".")
     suspend fun getSuggestion(): Response<NetworkSuggestion>
-
 }
 
 private val moshi = Moshi.Builder()

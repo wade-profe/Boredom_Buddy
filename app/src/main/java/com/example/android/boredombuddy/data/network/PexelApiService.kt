@@ -54,7 +54,6 @@ interface ImageSearch{
                          @Query("query") query: String): Response<TotalResult>
 }
 
-
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
     .build()

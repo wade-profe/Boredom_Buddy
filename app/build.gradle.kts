@@ -35,7 +35,6 @@ android {
     val localProperties = Properties()
     localProperties.load(FileInputStream(rootProject.file("local.properties")))
 
-
     buildTypes {
         release {
             buildConfigField("String", "PEXEL_API_KEY", localProperties.getProperty("PEXEL_API_KEY"))

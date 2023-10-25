@@ -118,9 +118,10 @@ class FavouritesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel.uniqueFavouritesCategories.observe(viewLifecycleOwner) { categories ->
-            categories?.let { categories ->
+            if (categories.isNullOrEmpty()) {
+                favouritesBinding.categories.removeAllViews()
+            } else {
                 favouritesBinding.categories.apply {
                     removeOutdatedCategories(categories)
                     addNewCategories(categories)
