@@ -17,4 +17,8 @@
     <string name="error_retrieving_image">Error retrieving image</string>
     <string name="internet_connection_required">Internet connection required</string>
     <string name="error_retrieving_suggestion">Error retrieving suggestion</string>
+    <string name="delete_all_favourites">Delete all favourites</string>
+    <string name="favourites">Favourites</string>
+    <string name="new_suggestion_page_title">What to do?</string>
+    <string name="load_a_new_suggestion">Load a new suggestion</string>
 </resources>
