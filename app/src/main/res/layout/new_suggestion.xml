@@ -20,7 +20,7 @@
                     android:id="@+id/new_suggestion_header"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="What to do?"
+                    android:text="@string/new_suggestion_page_title"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -43,7 +43,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/refresh_icon"
-                    android:onClick="@{() -> viewModel.getNewSuggestion()}" />
+                    android:onClick="@{() -> viewModel.getNewSuggestion()}"
+                    android:contentDescription="@string/load_a_new_suggestion"/>
 
                 <TextView
                     android:id="@+id/suggestion"
@@ -71,12 +72,12 @@
                     android:fontFamily="@font/finger_paint"
                     android:textAlignment="center"/>
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/favourite"
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:layout_marginTop="16dp"
-                    android:background="@drawable/circle"
+                    android:background="@drawable/button_state"
                     android:contentDescription="@string/add_to_favourites"
                     android:onClick="@{() -> viewModel.saveSuggestionToFavourites()}"
                     android:src="@drawable/thumbs_up_foreground"

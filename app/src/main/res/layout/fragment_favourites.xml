@@ -20,7 +20,7 @@
                     android:id="@+id/favourites_header"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Favourites"
+                    android:text="@string/favourites"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -39,9 +39,9 @@
                     </com.google.android.material.chip.ChipGroup>
                 </HorizontalScrollView>
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/delete_all_icon"
-                    android:background="@drawable/circle"
+                    android:background="@drawable/button_state"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:tooltipText="Delete all"
@@ -51,6 +51,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     android:onClick="@{() -> viewModel.deleteAllFavourites()}"
                     android:elevation="15dp"
+                    android:contentDescription="@string/delete_all_favourites"
                     />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -71,7 +72,7 @@
                     android:id="@+id/noDataTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableTop="@drawable/ic_no_data"
+                    app:drawableTopCompat="@drawable/ic_no_data"
                     app:setVisibility="@{viewModel.showNoData}"
                     android:gravity="center"
                     android:text="@string/no_data"
