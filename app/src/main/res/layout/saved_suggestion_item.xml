@@ -28,10 +28,10 @@
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:contentDescription="@string/suggestion_image"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/placeholder_image" />
+                tools:src="@drawable/placeholder_image"
+                android:layout_margin="8dp"/>
 
             <TextView
                 android:id="@+id/suggestion_text"
@@ -42,9 +42,8 @@
                 android:text="@{suggestion.activity}"
                 android:textSize="16sp"
                 android:fontFamily="@font/finger_paint"
-                app:layout_constraintBottom_toTopOf="@id/delete_icon"
                 app:layout_constraintStart_toEndOf="@id/suggestion_image"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toTopOf="@id/suggestion_image"
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:text="Learn how to design your own website"
                 android:layout_marginStart="8dp"/>
@@ -86,7 +85,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/notification_icon"
-                android:padding="2dp"/>
+                android:padding="8dp"/>
 
             <ImageView
                 android:id="@+id/notification_icon"
@@ -97,7 +96,7 @@
                 app:layout_constraintTop_toBottomOf="@id/suggestion_link"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/share_button"
-                android:padding="2dp"/>
+                android:padding="8dp"/>
 
             <ImageView
                 android:id="@+id/share_button"
@@ -108,7 +107,7 @@
                 app:layout_constraintTop_toBottomOf="@id/suggestion_link"
                 app:layout_constraintEnd_toStartOf="@+id/notification_icon"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
-                android:padding="2dp"/>
+                android:padding="8dp"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

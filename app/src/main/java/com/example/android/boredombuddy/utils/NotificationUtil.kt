@@ -20,7 +20,6 @@ import com.squareup.picasso.Picasso
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.invoke
 import kotlinx.coroutines.launch
 
 
@@ -106,6 +105,7 @@ fun makePendingIntent(context: Context, suggestion: Suggestion): PendingIntent {
         context,
         requestCode,
         Intent(context, NotificationReceiver::class.java).apply {
+            action = "com.example.android.boredombuddy.FIRE_NOTIFICATION"
             putExtra("suggestion", suggestion)
             putExtra("requestCode", requestCode)
         },
