@@ -76,7 +76,7 @@ class SetNotificationViewModel : ViewModel() {
             _resultMessage.value = ResultMessage.INVALID_TIME
         } else {
             with(context) {
-                getAlarmManager().scheduleNotification(this, suggestion, timeInMillis.value!!)
+                getAlarmManager().scheduleNotification(context, suggestion, timeInMillis.value!!) // Note: previously had context param set to 'this', changed to use the 'context' param
                 _resultMessage.value = ResultMessage.SUCCESS
             }
         }

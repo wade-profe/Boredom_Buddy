@@ -13,6 +13,7 @@ import com.example.android.boredombuddy.data.local.SuggestionDatabase
 import com.example.android.boredombuddy.favourites.FavouritesViewModel
 import com.example.android.boredombuddy.newSuggestion.NewSuggestionViewModel
 import com.example.android.boredombuddy.setNotification.SetNotificationViewModel
+import com.example.android.boredombuddy.alarmRestore.AlarmRestoreService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -70,6 +71,10 @@ class MainApplication : Application() {
             }
 
             single { SuggestionRepository(get() as SuggestionDao) }
+
+            factory {
+                AlarmRestoreService(get() as SuggestionDao)
+            }
         }
 
         startKoin {

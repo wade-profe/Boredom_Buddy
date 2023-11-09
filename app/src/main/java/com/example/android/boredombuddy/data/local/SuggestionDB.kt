@@ -20,6 +20,7 @@ data class DatabaseSuggestion constructor(
     val link: String,
     var imageUrl: String?,
     var mostRecent: Boolean = true
+    // TODO add field for nullable long representing time of notification (defaults to null)
 )
 
 fun DatabaseSuggestion.toDomainModel(): Suggestion{
@@ -70,9 +71,12 @@ interface SuggestionDao{
 
     @Query("SELECT DISTINCT(type) FROM DatabaseSuggestion WHERE mostRecent=0")
     fun getDistinctCategories(): LiveData<List<String>?>
+
+    // TODO add queries for retrieving favourited reminders with reminders set (time not null) to future (can use strftime('%s', 'now') * 1000 to get current time in millis within the query
 }
 
 @Database(entities = [DatabaseSuggestion::class],  version = 1)
+// TODO update version
 abstract class SuggestionDatabase: RoomDatabase(){
     abstract fun getSuggestionDao(): SuggestionDao
 }
