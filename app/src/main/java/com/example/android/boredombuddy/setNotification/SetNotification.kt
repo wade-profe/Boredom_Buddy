@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.android.boredombuddy.MainActivity
 import com.example.android.boredombuddy.data.Suggestion
 import com.example.android.boredombuddy.databinding.FragmentSetNotificationBinding
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SetNotification : Fragment() {
@@ -34,8 +36,8 @@ class SetNotification : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val activity = (activity as MainActivity)
 
-        viewModel.resultMessage.observe(viewLifecycleOwner)  {
-            when(it){
+        viewModel.resultMessage.observe(viewLifecycleOwner) {
+            when (it) {
                 ResultMessage.INVALID_TIME -> activity.postToast("Date and time must be in the future")
                 ResultMessage.SUCCESS -> activity.postToast("Reminder saved")
                 else -> {}
@@ -56,7 +58,6 @@ class SetNotification : Fragment() {
         setNotificationBinding.setNotification.setOnClickListener {
             viewModel.scheduleNotification(requireContext().applicationContext, suggestion)
             findNavController().popBackStack()
-
         }
 
         setNotificationBinding.closeButton.setOnClickListener {

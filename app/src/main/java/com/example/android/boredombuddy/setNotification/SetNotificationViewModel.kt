@@ -5,18 +5,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
 import com.example.android.boredombuddy.data.Suggestion
+import com.example.android.boredombuddy.data.SuggestionRepository
 import com.example.android.boredombuddy.utils.getAlarmManager
 import com.example.android.boredombuddy.utils.scheduleNotification
+import kotlinx.coroutines.launch
 import java.util.Calendar
 
-enum class ResultMessage{
+enum class ResultMessage {
     DEFAULT,
     INVALID_TIME,
     SUCCESS
 }
 
-class SetNotificationViewModel : ViewModel() {
+class SetNotificationViewModel(private val repository: SuggestionRepository) : ViewModel() {
 
     private val _calendar = MutableLiveData(Calendar.getInstance())
     val calendar: LiveData<Calendar>
@@ -72,15 +75,16 @@ class SetNotificationViewModel : ViewModel() {
     }
 
     fun scheduleNotification(context: Context, suggestion: Suggestion) {
-        if(Calendar.getInstance().timeInMillis >= timeInMillis.value!!){
-            _resultMessage.value = ResultMessage.INVALID_TIME
-        } else {
-            with(context) {
-                getAlarmManager().scheduleNotification(context, suggestion, timeInMillis.value!!) // Note: previously had context param set to 'this', changed to use the 'context' param
+        viewModelScope.launch {
+            if (Calendar.getInstance().timeInMillis >= timeInMillis.value!!) {
+                _resultMessage.value = ResultMessage.INVALID_TIME
+            } else {
+                repository.storeAlarmTime(suggestion.id, timeInMillis.value!!)
+                context.getAlarmManager()
+                    .scheduleNotification(context, suggestion, timeInMillis.value!!)
                 _resultMessage.value = ResultMessage.SUCCESS
             }
         }
-
     }
 
     fun launchTimePicker() {

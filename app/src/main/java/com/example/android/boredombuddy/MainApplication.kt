@@ -67,7 +67,9 @@ class MainApplication : Application() {
             }
 
             viewModel{
-                SetNotificationViewModel()
+                SetNotificationViewModel(
+                    get() as SuggestionRepository
+                )
             }
 
             single { SuggestionRepository(get() as SuggestionDao) }

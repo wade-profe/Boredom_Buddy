@@ -15,12 +15,14 @@ import com.example.android.boredombuddy.BuildConfig
 import com.example.android.boredombuddy.MainActivity
 import com.example.android.boredombuddy.R
 import com.example.android.boredombuddy.data.Suggestion
+import com.example.android.boredombuddy.data.local.SuggestionDao
 import com.example.android.boredombuddy.setNotification.NotificationReceiver
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.koin.java.KoinJavaComponent.inject
 
 
 private const val NOTIFICATION_CHANNEL_ID = BuildConfig.APPLICATION_ID + ".channel"
@@ -93,7 +95,6 @@ fun AlarmManager.scheduleNotification(
     suggestion: Suggestion,
     notificationTimeInMillis: Long
 ) {
-
     val pendingIntent = makePendingIntent(context, suggestion)
     set(AlarmManager.RTC, notificationTimeInMillis, pendingIntent)
 

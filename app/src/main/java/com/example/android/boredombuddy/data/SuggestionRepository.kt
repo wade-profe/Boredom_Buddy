@@ -121,4 +121,10 @@ class SuggestionRepository(
             }
         }
     }
+
+    suspend fun storeAlarmTime(suggestionId: Long, alarmTimeInMillis: Long){
+        withContext(dispatcher){
+            suggestionDao.setReminderTime(suggestionId, alarmTimeInMillis)
+        }
+    }
 }
