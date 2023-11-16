@@ -80,8 +80,7 @@ class SetNotificationViewModel(private val repository: SuggestionRepository) : V
                 _resultMessage.value = ResultMessage.INVALID_TIME
             } else {
                 repository.storeAlarmTime(suggestion.id, timeInMillis.value!!)
-                context.getAlarmManager()
-                    .scheduleNotification(context, suggestion, timeInMillis.value!!)
+                context.scheduleNotification(suggestion, timeInMillis.value!!)
                 _resultMessage.value = ResultMessage.SUCCESS
             }
         }

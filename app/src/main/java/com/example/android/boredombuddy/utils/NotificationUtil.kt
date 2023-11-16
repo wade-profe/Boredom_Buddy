@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Build
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
@@ -32,6 +33,7 @@ fun Context.getNotificationManager(): NotificationManager {
 }
 
 fun Context.getAlarmManager(): AlarmManager {
+    Log.d("WADE", "Retrieving alarm manager")
     return getSystemService(Context.ALARM_SERVICE) as AlarmManager
 }
 
@@ -90,13 +92,16 @@ fun NotificationManager.sendNotification(
 
 }
 
-fun AlarmManager.scheduleNotification(
-    context: Context,
+fun Context.scheduleNotification(
     suggestion: Suggestion,
     notificationTimeInMillis: Long
 ) {
-    val pendingIntent = makePendingIntent(context, suggestion)
-    set(AlarmManager.RTC, notificationTimeInMillis, pendingIntent)
+    Log.d("WADE", "Getting alarm manager")
+    val alarmManager = this.getAlarmManager()
+    Log.d("WADE", "Creating intent")
+    val pendingIntent = makePendingIntent(this, suggestion)
+    Log.d("WADE", "Setting alarm")
+    alarmManager.set(AlarmManager.RTC, notificationTimeInMillis, pendingIntent)
 
 }
 
