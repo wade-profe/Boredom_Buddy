@@ -1,44 +1,45 @@
 package com.example.android.boredombuddy.alarmRestore
 
-import android.app.Service
-import android.content.Intent
-import android.os.IBinder
+import android.content.Context
+import android.util.Log
+import androidx.work.CoroutineWorker
+import androidx.work.WorkerParameters
 import com.example.android.boredombuddy.data.local.SuggestionDao
 import com.example.android.boredombuddy.data.local.toDomainModel
 import com.example.android.boredombuddy.utils.scheduleNotification
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.koin.android.ext.android.inject
+import org.koin.java.KoinJavaComponent
 
+class AlarmRestoreWorker(appContext: Context, params: WorkerParameters): CoroutineWorker(appContext, params) {
 
-class AlarmRestoreService(private val serviceScope: CoroutineScope = CoroutineScope(Dispatchers.Main)): Service() {
+    private val suggestionDao: SuggestionDao by KoinJavaComponent.inject(SuggestionDao::class.java)
 
-    private val suggestionDao: SuggestionDao by inject()
+    override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
+        Log.d("AlarmRestoreWorker", "doWork method hit")
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-
-        serviceScope.launch {
-            val favouritesWithReminders = withContext(Dispatchers.IO){
+        try{
+            val favouritesWithReminders =
                 suggestionDao.getSuggestionsWithReminders()
-            }
-            if(!favouritesWithReminders.isNullOrEmpty()){
-                favouritesWithReminders.forEach {suggestion ->
-                    applicationContext.scheduleNotification(suggestion.toDomainModel(), suggestion.notificationTime!!)
-                }
-            }
 
-            stopSelf()
+            Log.d("AlarmRestoreWorker", "Favourites with reminders variable - $favouritesWithReminders")
+            if (favouritesWithReminders.isNotEmpty()) {
+                Log.d("AlarmRestoreWorker", "Query not empty, attempting to set reminders")
+                favouritesWithReminders.forEach { suggestion ->
+                    Log.d("AlarmRestoreWorker", "Resetting reminder for ${suggestion.activity}")
+                    applicationContext.scheduleNotification(
+                        suggestion.toDomainModel(),
+                        suggestion.notificationTime!!
+                    )
+                }
+            } else {
+                Log.d("AlarmRestoreWorker", "Favourites with alarms list is empty")
+            }
+        } catch (e: Exception){
+            Log.d("AlarmRestoreWorker", e.message.toString())
         }
 
-        return START_NOT_STICKY
+        Result.success()
     }
-
-    override fun onBind(intent: Intent?): IBinder? {
-        return null
-    }
-
-    // TODO regular alarms working, test alarm restore by settings alarm and restarting device, debug any issues
 
 }

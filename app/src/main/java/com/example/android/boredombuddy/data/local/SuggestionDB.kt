@@ -72,7 +72,7 @@ interface SuggestionDao{
     @Query("SELECT DISTINCT(type) FROM DatabaseSuggestion WHERE mostRecent=0")
     fun getDistinctCategories(): LiveData<List<String>?>
 
-    @Query("SELECT * FROM DatabaseSuggestion WHERE mostRecent = 0 AND notificationTime != null AND notificationTime > (strftime('%s', 'now') * 1000)")
+    @Query("SELECT * FROM DatabaseSuggestion WHERE mostRecent = 0 AND notificationTime is not null AND notificationTime > (strftime('%s', 'now') * 1000)")
     suspend fun getSuggestionsWithReminders(): List<DatabaseSuggestion>
 
     @Query("UPDATE DatabaseSuggestion SET notificationTime = :timeInMillis WHERE id = :id")
