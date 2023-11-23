@@ -16,28 +16,22 @@ class AlarmRestoreWorker(appContext: Context, params: WorkerParameters): Corouti
     private val suggestionDao: SuggestionDao by KoinJavaComponent.inject(SuggestionDao::class.java)
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
-        Log.d("AlarmRestoreWorker", "doWork method hit")
 
-        try{
+        // TODO consider splitting this in two so that you get favouritesWithFUTUREReminders and also favourites with PAST reminders
+        // then do the same thing as always for future reminders, and for past reminders reset their times to null
+
             val favouritesWithReminders =
                 suggestionDao.getSuggestionsWithReminders()
 
-            Log.d("AlarmRestoreWorker", "Favourites with reminders variable - $favouritesWithReminders")
             if (favouritesWithReminders.isNotEmpty()) {
-                Log.d("AlarmRestoreWorker", "Query not empty, attempting to set reminders")
                 favouritesWithReminders.forEach { suggestion ->
-                    Log.d("AlarmRestoreWorker", "Resetting reminder for ${suggestion.activity}")
                     applicationContext.scheduleNotification(
                         suggestion.toDomainModel(),
                         suggestion.notificationTime!!
                     )
                 }
-            } else {
-                Log.d("AlarmRestoreWorker", "Favourites with alarms list is empty")
             }
-        } catch (e: Exception){
-            Log.d("AlarmRestoreWorker", e.message.toString())
-        }
+
 
         Result.success()
     }

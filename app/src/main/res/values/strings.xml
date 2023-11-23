@@ -21,4 +21,5 @@
     <string name="favourites">Favourites</string>
     <string name="new_suggestion_page_title">What to do?</string>
     <string name="load_a_new_suggestion">Load a new suggestion</string>
+    <string name="notification_time">Notification set: %1$s</string>
 </resources>

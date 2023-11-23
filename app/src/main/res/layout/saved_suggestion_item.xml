@@ -8,6 +8,8 @@
         <variable
             name="suggestion"
             type="com.example.android.boredombuddy.data.Suggestion" />
+            <import
+                type="com.example.android.boredombuddy.utils.DateHelperKt" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -22,6 +24,19 @@
             android:layout_height="wrap_content"
             android:padding="5dp">
 
+            <TextView
+                android:id="@+id/notificationTime"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/suggestion_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="Notification time: 12/12/2023 08:09:00"
+                android:textSize="12sp"
+                android:text="@{@string/notification_time(DateHelperKt.getDateTime(suggestion.notificationTime))}"
+                app:setVisibility="@{suggestion.notificationTime!=null}"
+                />
+
             <ImageView
                 android:id="@+id/suggestion_image"
                 setSrc="@{suggestion.imageUrl}"
@@ -29,7 +44,7 @@
                 android:layout_height="50dp"
                 android:contentDescription="@string/suggestion_image"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/notificationTime"
                 tools:src="@drawable/placeholder_image"
                 android:layout_margin="8dp"/>
 

@@ -17,6 +17,7 @@ class NotificationReceiver : BroadcastReceiver() {
             val requestCode = intent.getIntExtra("requestCode", 0)
             val suggestion = intent.parcelable<Suggestion>("suggestion")
 
+            // TODO find a way to update the db for the suggestion so that notificationTime is reset to null
             context?.getNotificationManager()?.sendNotification(context, requestCode, suggestion!!)
         }
     }

@@ -9,5 +9,6 @@ data class Suggestion(
     val activity: String,
     val type: String,
     val link: String,
-    val imageUrl: String?
+    val imageUrl: String?,
+    val notificationTime: Long?
 ) : Parcelable

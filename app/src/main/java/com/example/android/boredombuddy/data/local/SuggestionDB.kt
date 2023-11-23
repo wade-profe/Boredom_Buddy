@@ -29,7 +29,8 @@ fun DatabaseSuggestion.toDomainModel(): Suggestion{
         activity = this.activity,
         type = this.type,
         link = this.link,
-        imageUrl = this.imageUrl
+        imageUrl = this.imageUrl,
+        notificationTime = this.notificationTime
     )
 }
 

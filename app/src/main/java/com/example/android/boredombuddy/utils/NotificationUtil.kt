@@ -8,7 +8,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Build
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
@@ -16,15 +15,12 @@ import com.example.android.boredombuddy.BuildConfig
 import com.example.android.boredombuddy.MainActivity
 import com.example.android.boredombuddy.R
 import com.example.android.boredombuddy.data.Suggestion
-import com.example.android.boredombuddy.data.local.SuggestionDao
 import com.example.android.boredombuddy.setNotification.NotificationReceiver
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.koin.java.KoinJavaComponent.inject
-
 
 private const val NOTIFICATION_CHANNEL_ID = BuildConfig.APPLICATION_ID + ".channel"
 
@@ -33,7 +29,6 @@ fun Context.getNotificationManager(): NotificationManager {
 }
 
 fun Context.getAlarmManager(): AlarmManager {
-    Log.d("WADE", "Retrieving alarm manager")
     return getSystemService(Context.ALARM_SERVICE) as AlarmManager
 }
 
@@ -96,13 +91,9 @@ fun Context.scheduleNotification(
     suggestion: Suggestion,
     notificationTimeInMillis: Long
 ) {
-    Log.d("WADE", "Getting alarm manager")
     val alarmManager = this.getAlarmManager()
-    Log.d("WADE", "Creating intent")
     val pendingIntent = makePendingIntent(this, suggestion)
-    Log.d("WADE", "Setting alarm")
     alarmManager.set(AlarmManager.RTC, notificationTimeInMillis, pendingIntent)
-
 }
 
 fun makePendingIntent(context: Context, suggestion: Suggestion): PendingIntent {

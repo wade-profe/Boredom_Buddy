@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -74,14 +73,14 @@ class FavouritesFragment : Fragment() {
         favouritesBinding.lifecycleOwner = this
         favouritesBinding.viewModel = viewModel
         val adapter = FavouritesListAdapter(
-            { suggestion ->
+            onDeleteClick = { suggestion ->
                 val pendingIntent =
                     makePendingIntent(requireContext().applicationContext, suggestion)
                 requireContext().getAlarmManager().cancel(pendingIntent)
                 viewModel.deleteSuggestion(suggestion.id)
                 viewModel.refreshSelectedFilters()
             },
-            { suggestion ->
+            onNotificationClick = { suggestion ->
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
                     checkSelfPermission(
                         requireContext(),
@@ -96,7 +95,7 @@ class FavouritesFragment : Fragment() {
                     )
                 }
             },
-            { suggestion ->
+            onShareClick = { suggestion ->
                 val intent = Intent(Intent.ACTION_SEND).apply {
                     type = "text/plain"
                     putExtra(

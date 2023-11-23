@@ -1,8 +1,5 @@
 package com.example.android.boredombuddy.utils
 
-import android.opengl.Visibility
-import android.text.format.DateFormat
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -16,8 +13,6 @@ import com.example.android.boredombuddy.favourites.FavouritesListAdapter
 import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
-import java.util.SimpleTimeZone
 
 
 @BindingAdapter("showLoading")
@@ -41,11 +36,11 @@ fun setRecycleViewList(recyclerView: RecyclerView, data: List<Suggestion>?){
 }
 
 @BindingAdapter("setVisibility")
-fun setVisibility(view: View, showNoData: Boolean){
-    if(showNoData){
+fun setVisibility(view: View, show: Boolean){
+    if(show){
         view.visibility = View.VISIBLE
     } else{
-        view.visibility = View.INVISIBLE
+        view.visibility = View.GONE
     }
 }
 
